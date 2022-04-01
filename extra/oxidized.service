@@ -1,0 +1,22 @@
+# Put this file in /etc/systemd/system.
+#
+# To set OXIDIZED_HOME instead of the default,
+# ~oxidized/.config/oxidized, uncomment (and modify as required) the
+# "Environment" variable below so systemd sets the correct
+# environment.
+
+[Unit]
+Description=Oxidized - Network Device Configuration Backup Tool
+After=network-online.target multi-user.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/oxidized
+User=oxidized
+KillSignal=SIGKILL
+#Environment="OXIDIZED_HOME=/etc/oxidized"
+Restart=on-failure
+RestartSec=300s
+
+[Install]
+WantedBy=multi-user.target
