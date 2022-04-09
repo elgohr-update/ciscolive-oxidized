@@ -10,8 +10,9 @@ class PfSenseHttps < Oxidized::Model
     port = vars(:https_port) || 443
     url  = URI::HTTPS.build host: @node.ip, path: main_page, port: port
 
-    m_page           = m.get(url.to_s)
-    form             = m_page.forms.first
+    m_page = m.get(url.to_s)
+    form   = m_page.forms.first
+
     form.usernamefld = @username
     form.passwordfld = @password
     form.click_button

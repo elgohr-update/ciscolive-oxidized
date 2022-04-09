@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "psych", "~> 3.3.2"
   s.add_runtime_dependency "net-tftp", "~> 0.1.0"
   s.add_runtime_dependency "net-ftp", "~> 0.1.3"
+  s.add_runtime_dependency "mechanize", "~> 2.8"
 
   s.add_development_dependency "bundler", "~> 2.0"
   s.add_development_dependency "codecov" if ENV["CI"] == "true"
