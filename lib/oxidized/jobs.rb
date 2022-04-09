@@ -2,10 +2,11 @@
 
 module Oxidized
   class Jobs < Array
-    AVERAGE_DURATION  = 5 # initially presume nodes take 5s to complete
-    MAX_INTER_JOB_GAP = 300 # add job if more than X from last job started
     # 类对象属性：间隔时间、并发数和计划执行数量
     attr_accessor :interval, :max, :want
+    
+    AVERAGE_DURATION  = 5 # initially presume nodes take 5s to complete
+    MAX_INTER_JOB_GAP = 300 # add job if more than X from last job started
 
     def initialize(max, interval, nodes)
       @max = max

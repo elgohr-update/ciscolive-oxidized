@@ -5,7 +5,7 @@ module Oxidized
   require_relative "jobs"
 
   class Worker
-    # 初始化入口
+    # 初始化入口：根据设备清单总数、线程并发自动设置jobs
     def initialize(nodes)
       @jobs_done  = 0
       @nodes      = nodes
@@ -15,10 +15,12 @@ module Oxidized
       Thread.abort_on_exception = true
     end
 
-    # 调度任务
+    # 调度节点备份任务
     def work
       ended = []
+      # 自动删除已调度完成的线程任务
       @jobs.delete_if { |job| ended << job unless job.alive? }
+      # 运行钩子函数
       ended.each { |job| process job }
 
       @jobs.work
@@ -32,10 +34,11 @@ module Oxidized
           break if last + Oxidized.config.interval > Time.now.utc
         end
         # shift nodes and get the next node
+        # FIFO 提取 nodes 末位节点
         node = @nodes.get
         node.running? ? next : node.running = true
 
-        # 将节点依次加入队列消费
+        # 依次将节点加入队列消费，期间会执行调度作业
         @jobs.push Job.new node
         Oxidized.logger.debug "lib/oxidized/worker.rb: Added #{node.group}/#{node.name} to the job queue"
       end

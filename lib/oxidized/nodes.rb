@@ -11,18 +11,24 @@ module Oxidized
   class Nodes < Array
     # 类对象属性
     attr_accessor :source, :jobs
+
     # 方法别名
     alias put unshift
 
+    # 加载对象
     def load(node_want = nil)
       with_lock do
-        new     = []
+        new = []
+        # 加载设备清单
         @source = Oxidized.config.source.default
         Oxidized.mgr.add_source(@source) || raise(MethodNotFound, "cannot load node source '#{@source}', not found")
         Oxidized.logger.info "lib/oxidized/nodes.rb: Loading nodes"
+
+        # 实例化对象
         nodes = Oxidized.mgr.source[@source].new.load node_want
         nodes.each do |node|
           # we want to load specific node(s), not all of them
+          # 加载部分清单，而非全量清单。默认加载全量清单
           next unless node_want? node_want, node
 
           begin
@@ -39,6 +45,7 @@ module Oxidized
       end
     end
 
+    # 根据入参判断是否与节点的IP、主机名相同
     def node_want?(node_want, node)
       return true unless node_want
 
@@ -68,7 +75,7 @@ module Oxidized
       end
     end
 
-    #
+    # 根据节点名称、属性查询查询配置对象
     def fetch(node_name, group)
       yield_node_output(node_name) do |node, output|
         output.fetch node, group
@@ -76,6 +83,7 @@ module Oxidized
     end
 
     # @param node [String] name of the node moved into the head of array
+    # 获取下一个节点信息
     def next(node, opt = {})
       return unless waiting.find_node_index(node)
 
@@ -87,6 +95,7 @@ module Oxidized
         n.from  = opt["from"]
         # set last job to nil so that the node is picked for immediate update
         n.last = nil
+        # 此处为方法别名，向列表头部添加元素
         put n
         jobs.want += 1 if Oxidized.config.next_adds_job?
       end
@@ -94,6 +103,7 @@ module Oxidized
     alias top next
 
     # @return [String] node from the head of the array
+    # FIFO 先进先出队列逻辑
     def get
       with_lock do
         (self << shift).last
@@ -106,18 +116,21 @@ module Oxidized
       find_index(node) || raise(Oxidized::NodeNotFound, "unable to find '#{node}'")
     end
 
+    # 根据节点名称、属组查询其相关的配置版本信息
     def version(node_name, group)
       yield_node_output(node_name) do |node, output|
         output.version node, group
       end
     end
 
+    # 根据节点名称、属组和OID查询特定版本信息
     def get_version(node_name, group, oid)
       yield_node_output(node_name) do |node, output|
         output.get_version node, group, oid
       end
     end
 
+    # 根据节点名称、属性以及OID 获取配置差量
     def get_diff(node_name, group, oid1, oid2)
       yield_node_output(node_name) do |node, output|
         output.get_diff node, group, oid1, oid2
@@ -136,10 +149,12 @@ module Oxidized
         end
       end
 
+      # 同步锁机制
       def with_lock(&block)
         @mutex.synchronize(&block)
       end
 
+      # 查询节点索引
       def find_index(node)
         index { |e| [e.name, e.ip].include? node }
       end
@@ -178,6 +193,7 @@ module Oxidized
         sort_by! { |x| x.last.nil? ? Time.new(0) : x.last.end }
       end
 
+      # 过滤节点执行代码块
       def yield_node_output(node_name)
         with_lock do
           node   = find { |n| n.name == node_name }

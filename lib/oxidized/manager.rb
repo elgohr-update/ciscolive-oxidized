@@ -63,7 +63,6 @@ module Oxidized
     private
       def loader(hash, global_dir, local_dir, name)
         dir = File.join(Config::ROOT, local_dir)
-
         # 优先加载本地文件，其次为全局配置，如未加载则返回 false
         map = Manager.load(dir, name) if File.exist? File.join(dir, "#{name}.rb")
         map ||= Manager.load(global_dir, name) if File.exist? File.join(global_dir, "#{name}.rb")
