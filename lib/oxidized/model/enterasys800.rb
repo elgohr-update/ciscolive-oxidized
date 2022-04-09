@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Enterasys800 < Oxidized::Model
   # Enterasys 800 models #

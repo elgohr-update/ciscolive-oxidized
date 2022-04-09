@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class C4CMTS < Oxidized::Model
   # Arris C4 CMTS

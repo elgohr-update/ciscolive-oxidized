@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 class IOS < Oxidized::Model
   prompt(/^([\w.@()-]+[#>]\s?)$/)
-  comment  "! "
+  comment "! "
 
   # example how to handle pager
   # expect /^\s--More--\s+.*$/ do |data, re|
@@ -52,11 +50,11 @@ class IOS < Oxidized::Model
     comments << cfg.lines.first
     lines = cfg.lines
     lines.each_with_index do |line, i|
-      slave = ""
+      slave     = ""
       slaveslot = ""
 
       if line =~ /^Slave in slot (\d+) is running/
-        slave = " Slave:"
+        slave     = " Slave:"
         slaveslot = ", slot #{Regexp.last_match(1)}"
       end
 
@@ -75,9 +73,9 @@ class IOS < Oxidized::Model
       comments << "Memory: pcmcia #{Regexp.last_match(2)} #{Regexp.last_match(3)}#{Regexp.last_match(4)} #{Regexp.last_match(1)}" if line =~ /^(\d+[kK]) bytes of (Flash|ATA)?.*PCMCIA .*(slot|disk) ?(\d)/i
 
       if line =~ /(\S+(?:\sseries)?)\s+(?:\((\S+)\)\s+processor|\(revision[^)]+\)).*\s+with (\S+k) bytes/i
-        sproc = Regexp.last_match(1)
-        cpu = Regexp.last_match(2)
-        mem = Regexp.last_match(3)
+        sproc   = Regexp.last_match(1)
+        cpu     = Regexp.last_match(2)
+        mem     = Regexp.last_match(3)
         cpuxtra = ""
         comments << "Chassis type:#{slave} #{sproc}"
         comments << "Memory:#{slave} main #{mem}"

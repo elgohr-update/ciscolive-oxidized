@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Voss < Oxidized::Model
   # Extreme/Avaya VSP Operating System Software(VOSS)

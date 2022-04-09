@@ -6,8 +6,8 @@ module Oxidized
       attr_reader :node
 
       def initialize
-        @post_login = []
-        @pre_logout = []
+        @post_login                 = []
+        @pre_logout                 = []
         @username, @password, @exec = nil
       end
 
@@ -31,7 +31,10 @@ module Oxidized
 
       def disconnect_cli
         Oxidized.logger.debug "lib/oxidized/input/cli.rb Running pre_logout commands at #{node.name}"
-        @pre_logout.each { |command, block| block ? block.call : (cmd command, nil) }
+        @pre_logout.each do |command, block|
+          Oxidized.logger.debug "lib/oxidized/input/cli.rb: Running pre_logout command: #{command.inspect}, block: #{block.inspect} at #{node.name}"
+          block ? block.call : (cmd command)
+        end
       end
 
       def post_login(cmd = nil, &block)
@@ -58,6 +61,8 @@ module Oxidized
         match_re = [@node.prompt]
         match_re << @username if @username
         match_re << @password if @password
+
+        # 一直运行到条件表达式为真，如果失败则超时异常
         until (match = expect(match_re)) == @node.prompt
           cmd(@node.auth[:username], nil) if match == @username
           cmd(@node.auth[:password], nil) if match == @password

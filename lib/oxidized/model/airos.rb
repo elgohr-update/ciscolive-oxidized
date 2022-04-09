@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Airos < Oxidized::Model
   # Ubiquiti AirOS circa 5.x

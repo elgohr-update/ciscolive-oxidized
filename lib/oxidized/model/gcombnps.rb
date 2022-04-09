@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class GcomBNPS < Oxidized::Model
   # For switches from GCOM Technologies Co.,Ltd. running the "Broadband Network Platform Software"

@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class PurityOS < Oxidized::Model
   # Pure Storage Purity OS

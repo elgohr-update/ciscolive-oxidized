@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class FujitsuPY < Oxidized::Model
   prompt(/^(\([\w.-]*\)\s#|^\S+#\s)$/)

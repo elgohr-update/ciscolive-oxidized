@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class FiberDriver < Oxidized::Model
   prompt(/\w+#/)

@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class JunOS < Oxidized::Model
   comment "# "
@@ -8,7 +8,7 @@ class JunOS < Oxidized::Model
   end
 
   cmd :all do |cfg|
-    cfg = cfg.cut_both if screenscrape
+    cfg = cfg.cut_both if screen_scrape
     cfg.gsub!(/  scale-subscriber (\s+)(\d+)/, "  scale-subscriber                <count>")
     cfg.lines.map { |line| line.rstrip }.join("\n") + "\n"
   end

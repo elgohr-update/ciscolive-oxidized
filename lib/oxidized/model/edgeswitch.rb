@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class EdgeSwitch < Oxidized::Model
   # Ubiquiti EdgeSwitch #

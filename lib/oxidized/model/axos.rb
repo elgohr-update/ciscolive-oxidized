@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class AxOS < Oxidized::Model
   prompt(/(\x1b\[\?7h)?([\w.@()-]+[#]\s?)$/)

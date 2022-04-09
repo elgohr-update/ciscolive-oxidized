@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class AOS < Oxidized::Model
   # Alcatel-Lucent Operating System

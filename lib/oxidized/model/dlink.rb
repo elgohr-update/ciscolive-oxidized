@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Dlink < Oxidized::Model
   # D-LINK Switches

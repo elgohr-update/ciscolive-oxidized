@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class ACOS < Oxidized::Model
   # A10 ACOS model for AX and Thunder series

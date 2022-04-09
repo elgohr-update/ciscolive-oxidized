@@ -5,7 +5,7 @@ module Oxidized
     class NoConfig < OxidizedError; end
 
     def initialize
-      @map = (Oxidized.config.model_map || {})
+      @map = Oxidized.config.model_map || {}
     end
 
     def map_model(model)
@@ -14,9 +14,9 @@ module Oxidized
 
     def node_var_interpolate(var)
       case var
-      when "nil"   then nil
+      when "nil" then nil
       when "false" then false
-      when "true"  then true
+      when "true" then true
       else var
       end
     end

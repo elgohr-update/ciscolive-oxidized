@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class LANCOM < Oxidized::Model
   # LANCOM Systems GmbH

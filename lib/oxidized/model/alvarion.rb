@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Alvarion < Oxidized::Model
   # Used in Alvarion wisp equipment

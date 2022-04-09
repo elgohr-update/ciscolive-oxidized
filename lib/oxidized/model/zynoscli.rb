@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class ZyNOSCLI < Oxidized::Model
   # Used in Zyxel DSLAMs, such as SAM1316

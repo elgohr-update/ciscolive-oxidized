@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class AsyncOS < Oxidized::Model
   # ESA prompt "(mail.example.com)> " or "mail.example.com> "

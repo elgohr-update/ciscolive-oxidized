@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class IBOS < Oxidized::Model
   # IBOS model, Intelligent Broadband Operating System (iBOS)

@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class FTOS < Oxidized::Model
   # Force10 FTOS model #

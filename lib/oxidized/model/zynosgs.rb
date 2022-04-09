@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class ZyNOSGS < Oxidized::Model
   # Used in Zyxel GS1900 switches, tested with GS1900-8

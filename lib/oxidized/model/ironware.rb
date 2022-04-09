@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class IronWare < Oxidized::Model
   prompt(/^.*(telnet|ssh)@.+[>#]\s?$/i)

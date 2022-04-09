@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class CiscoSMB < Oxidized::Model
   # Cisco Small Business 300, 500, and ESW2 series switches

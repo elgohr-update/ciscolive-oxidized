@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class CiscoVPN3k < Oxidized::Model
   # Used in Cisco VPN3000 concentrators

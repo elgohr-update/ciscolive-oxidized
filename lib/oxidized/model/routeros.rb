@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class RouterOS < Oxidized::Model
   prompt(/\[\w+@\S+(\s+\S+)*\]\s?>\s?$/)
@@ -6,7 +6,7 @@ class RouterOS < Oxidized::Model
 
   cmd :all do |cfg|
     cfg.gsub!(/\x1B\[([0-9]{1,3}(;[0-9]{1,3})*)?[m|K]/, "") # strip ANSI colours
-    if screenscrape
+    if screen_scrape
       cfg = cfg.cut_both
       cfg.gsub!(/^\r+(.+)/, '\1')
       cfg.gsub!(/([^\r]*)\r+$/, '\1')

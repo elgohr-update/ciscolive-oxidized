@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class GrandStream < Oxidized::Model
   cmd "/cgi-bin/dologin?password=%<password>s" do |cfg| # rubocop:disable Style/FormatStringToken

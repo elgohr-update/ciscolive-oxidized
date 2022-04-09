@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Coriant8600 < Oxidized::Model
   comment "# "

@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class XOS < Oxidized::Model
   # Extreme Networks XOS

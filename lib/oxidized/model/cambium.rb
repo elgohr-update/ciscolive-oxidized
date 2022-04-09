@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Cambium < Oxidized::Model
   cfg_cb = lambda do

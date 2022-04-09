@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class AOS7 < Oxidized::Model
   # Alcatel-Lucent Operating System Version 7 (Linux based)

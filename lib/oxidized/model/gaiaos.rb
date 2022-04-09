@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class GaiaOS < Oxidized::Model
   # CheckPoint - Gaia OS Model

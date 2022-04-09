@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Openbsd < Oxidized::Model
   # OpenBSD with custom promp, like user@hostname:~$

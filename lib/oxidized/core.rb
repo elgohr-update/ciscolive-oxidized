@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Oxidized
+  # 类单例方法
   class << self
     def new(*args)
       Core.new args
@@ -11,11 +12,15 @@ module Oxidized
     class NoNodesFound < OxidizedError; end
 
     def initialize(_args)
+      # 基础配置信息
       Oxidized.mgr = Manager.new
+      # 钩子函数
       Oxidized.hooks = HookManager.from_config(Oxidized.config)
+      # 设备清单
       nodes = Nodes.new
       raise NoNodesFound, "source returns no usable nodes" if nodes.size.zero?
 
+      # 初始化工作队列
       @worker = Worker.new nodes
       trap("HUP") { nodes.load }
       if Oxidized.config.rest?
@@ -34,7 +39,7 @@ module Oxidized
     private
       def run
         Oxidized.logger.debug "lib/oxidized/core.rb: Starting the worker..."
-        @worker.work while sleep Config::Sleep
+        @worker.work while sleep Config::SLEEP
       end
   end
 end

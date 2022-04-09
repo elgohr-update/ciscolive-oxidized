@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class PfSense < Oxidized::Model
   # use other use than 'admin' user, 'admin' user cannot get ssh/exec. See issue #535
@@ -20,7 +20,7 @@ class PfSense < Oxidized::Model
   # with a comment.
 
   cmd "cat /etc/version" do |version|
-    xmlcomment "PFsense #{version}"
+    xml_comment "PFsense #{version}"
   end
 
   cfg :ssh do

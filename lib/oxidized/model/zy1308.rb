@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 # For Zyxel OLTs series 1308
 class Zy1308 < Oxidized::Model

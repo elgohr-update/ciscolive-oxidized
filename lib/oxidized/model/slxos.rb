@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class SLXOS < Oxidized::Model
   prompt(/^.*[>#]\s?$/i)

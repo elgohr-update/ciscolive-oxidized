@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Vyatta < Oxidized::Model
   # Brocade Vyatta / VyOS model #

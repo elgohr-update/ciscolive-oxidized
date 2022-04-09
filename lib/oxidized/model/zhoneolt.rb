@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class ZhoneOLT < Oxidized::Model
   # Zhone OLT/MetroE/DSL devices (ONT uses a completely different CLI)

@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Eltex < Oxidized::Model
   # Tested with MES2324FB Version: 4.0.7.1 Build: 37 (master)

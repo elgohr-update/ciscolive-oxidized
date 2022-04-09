@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 # ECI Telecom Apollo
 # Tested on OPT9608 systems via SSH and telnet

@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Viptela < Oxidized::Model
   # Cisco Vipetla

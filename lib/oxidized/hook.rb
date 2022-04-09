@@ -53,7 +53,7 @@ module Oxidized
     end
 
     def handle(event, ctx_params = {})
-      ctx = HookContext.new ctx_params
+      ctx       = HookContext.new ctx_params
       ctx.event = event
 
       @registered_hooks[event].each do |r_hook|

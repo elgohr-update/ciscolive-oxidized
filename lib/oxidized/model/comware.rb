@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Comware < Oxidized::Model
   # HP (A-series)/H3C/3Com Comware

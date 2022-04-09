@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 require "strscan"
 require_relative "outputs"
@@ -182,7 +182,7 @@ module Oxidized
       data
     end
 
-    def xmlcomment(str)
+    def xml_comment(str)
       # XML Comments start with <!-- and end with -->
       #
       # Because it's illegal for the first or last characters of a comment
@@ -200,7 +200,7 @@ module Oxidized
       data
     end
 
-    def screenscrape
+    def screen_scrape
       @input.class.to_s.match(/Telnet/) || vars(:ssh_no_exec)
     end
 

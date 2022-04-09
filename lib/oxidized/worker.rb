@@ -1,23 +1,24 @@
 # frozen_string_literal: true
 
 module Oxidized
-  require "oxidized/job"
-  require "oxidized/jobs"
+  require_relative "job"
+  require_relative "jobs"
+
   class Worker
     def initialize(nodes)
-      @jobs_done  = 0
-      @nodes      = nodes
-      @jobs       = Jobs.new(Oxidized.config.threads, Oxidized.config.interval, @nodes)
-      @nodes.jobs = @jobs
+      @jobs_done                = 0
+      @nodes                    = nodes
+      @jobs                     = Jobs.new(Oxidized.config.threads, Oxidized.config.interval, @nodes)
+      @nodes.jobs               = @jobs
       Thread.abort_on_exception = true
     end
 
     def work
       ended = []
       @jobs.delete_if { |job| ended << job unless job.alive? }
-      ended.each      { |job| process job }
-      @jobs.work
+      ended.each { |job| process job }
 
+      @jobs.work
       while @jobs.size < @jobs.want
         Oxidized.logger.debug "lib/oxidized/worker.rb: Jobs running: #{@jobs.size} of #{@jobs.want} - ended: #{@jobs_done} of #{@nodes.size}"
         # ask for next node in queue non destructive way
@@ -40,7 +41,7 @@ module Oxidized
     end
 
     def process(job)
-      node = job.node
+      node      = job.node
       node.last = job
       node.stats.add job
       @jobs.duration job.time
@@ -57,19 +58,17 @@ module Oxidized
     private
       def process_success(node, job)
         @jobs_done += 1 # needed for :nodes_done hook
-        Oxidized.hooks.handle :node_success, node: node,
-                                             job:  job
+        Oxidized.hooks.handle(:node_success, node: node, job: job)
+
         msg = "update #{node.group}/#{node.name}"
         msg += " from #{node.from}" if node.from
         msg += " with message '#{node.msg}'" if node.msg
+
         output = node.output.new
-        if output.store node.name, job.config,
-                        msg: msg, email: node.email, user: node.user, group: node.group
+        if output.store(node.name, job.config, msg: msg, email: node.email, user: node.user, group: node.group)
           node.modified
           Oxidized.logger.info "Configuration updated for #{node.group}/#{node.name}"
-          Oxidized.hooks.handle :post_store, node:      node,
-                                             job:       job,
-                                             commitref: output.commitref
+          Oxidized.hooks.handle(:post_store, node: node, job: job, commitref: output.commitref)
         end
         node.reset
       end
@@ -78,6 +77,7 @@ module Oxidized
         msg = "#{node.group}/#{node.name} status #{job.status}"
         if node.retry < Oxidized.config.retries
           node.retry += 1
+
           msg += ", retry attempt #{node.retry}"
           @nodes.next node.name
         else
@@ -86,10 +86,11 @@ module Oxidized
           # This would cause :nodes_done hook to desync from running at the end of the nodelist and
           # be fired when the @jobs_done > @nodes.count (could be mid-cycle on the next cycle).
           @jobs_done += 1
+
           msg += ", retries exhausted, giving up"
+
           node.retry = 0
-          Oxidized.hooks.handle :node_fail, node: node,
-                                            job:  job
+          Oxidized.hooks.handle(:node_fail, node: node, job: job)
         end
         Oxidized.logger.warn msg
       end

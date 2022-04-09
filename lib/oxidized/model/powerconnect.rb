@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class PowerConnect < Oxidized::Model
   prompt(/^([\w\s.@-]+(\(\S*\))?[#>]\s?)$/) # allow spaces in hostname..dell does not limit it.. #

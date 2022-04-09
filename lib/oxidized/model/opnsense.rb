@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class OpnSense < Oxidized::Model
   # minimum required permissions: "System: Shell account access"
@@ -19,7 +19,7 @@ class OpnSense < Oxidized::Model
   # store the version information in this file, so both versions have to be
   # supported here for now.
   cmd 'opnsense-version 2>/dev/null || echo "OPNsense "`cat /usr/local/opnsense/version/opnsense`' do |version|
-    xmlcomment version
+    xml_comment version
   end
 
   cfg :ssh do

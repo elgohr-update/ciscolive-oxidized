@@ -8,10 +8,11 @@ module Oxidized
 
     def run
       check_pid
-      Process.daemon if @opts[:daemonize]
+      Process.daemon if @opts[:daemonize] || @opts[:D]
       write_pid
       begin
         Oxidized.logger.info "Oxidized starting, running as pid #{$PROCESS_ID}"
+        # 实例化对象
         Oxidized.new
       rescue StandardError => error
         crash error
@@ -30,8 +31,8 @@ module Oxidized
       end
 
       def crash(error)
-        Oxidized.logger.fatal "Oxidized crashed, crashfile written in #{Config::Crash}"
-        File.open Config::Crash, "w" do |file|
+        Oxidized.logger.fatal "Oxidized crashed, crashfile written in #{Config::CRASH}"
+        File.open Config::CRASH, "w" do |file|
           file.puts "-" * 50
           file.puts Time.now.utc
           file.puts error.message + " [" + error.class.to_s + "]"
@@ -44,7 +45,7 @@ module Oxidized
       def parse_opts
         opts = Slop.parse do |opt|
           opt.on "-d", "--debug", "turn on debugging"
-          opt.on "--daemonize", "Daemonize/fork the process"
+          opt.on "-D", "--daemonize", "Daemonize/fork the process"
           opt.on "-h", "--help", "show usage" do
             puts opt
             exit

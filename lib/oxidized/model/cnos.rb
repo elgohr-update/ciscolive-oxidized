@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 # model for Centec Networks CNOS based switches
 class CNOS < Oxidized::Model

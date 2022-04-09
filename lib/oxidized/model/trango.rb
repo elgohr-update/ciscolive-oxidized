@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Trango < Oxidized::Model
   # take a Trangolink sysinfo output and turn it into a configuration file

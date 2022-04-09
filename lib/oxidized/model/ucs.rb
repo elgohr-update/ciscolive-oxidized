@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class UCS < Oxidized::Model
   prompt(/^(\r?[\w.@_()-]+[#]\s?)$/)

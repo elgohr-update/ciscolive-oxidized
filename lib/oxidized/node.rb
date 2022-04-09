@@ -4,8 +4,11 @@ module Oxidized
   require "resolv"
   require "ostruct"
   require_relative "node/stats"
+
   class MethodNotFound < OxidizedError; end
-  class ModelNotFound  < OxidizedError; end
+
+  class ModelNotFound < OxidizedError; end
+
   class Node
     attr_reader :name, :ip, :model, :input, :output, :group, :auth, :prompt, :vars, :last, :repo
     attr_accessor :running, :user, :email, :msg, :from, :stats, :retry
@@ -18,18 +21,18 @@ module Oxidized
       Oxidized.logger.debug "IPADDR %s" % ip_addr.to_s
       @name = opt[:name]
       @ip = IPAddr.new(ip_addr).to_s rescue nil
-      @ip ||= Resolv.new.getaddress(@name) if Oxidized.config.resolve_dns?
-      @ip ||= @name
-      @group = opt[:group]
-      @model = resolve_model opt
-      @input = resolve_input opt
+      @ip     ||= Resolv.new.getaddress(@name) if Oxidized.config.resolve_dns?
+      @ip     ||= @name
+      @group  = opt[:group]
+      @model  = resolve_model opt
+      @input  = resolve_input opt
       @output = resolve_output opt
-      @auth = resolve_auth opt
+      @auth   = resolve_auth opt
       @prompt = resolve_prompt opt
-      @vars = opt[:vars]
-      @stats = Stats.new
-      @retry = 0
-      @repo = resolve_repo opt
+      @vars   = opt[:vars]
+      @stats  = Stats.new
+      @retry  = 0
+      @repo   = resolve_repo opt
 
       # model instance needs to access node instance
       @model.node = self
@@ -93,7 +96,7 @@ module Oxidized
     end
 
     def serialize
-      h = {
+      h             = {
         name:      @name,
         full_name: @name,
         ip:        @ip,
@@ -117,19 +120,19 @@ module Oxidized
 
     def last=(job)
       if job
-        ostruct = OpenStruct.new
+        ostruct        = OpenStruct.new
         ostruct.start  = job.start
         ostruct.end    = job.end
         ostruct.status = job.status
         ostruct.time   = job.time
-        @last = ostruct
+        @last          = ostruct
       else
         @last = nil
       end
     end
 
     def reset
-      @user = @email = @msg = @from = nil
+      @user  = @email = @msg = @from = nil
       @retry = 0
     end
 

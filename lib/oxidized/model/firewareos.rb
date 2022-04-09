@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class FirewareOS < Oxidized::Model
   prompt(/^\[?\w*\]?\w*?(<\w*>)?(#|>)\s*$/)

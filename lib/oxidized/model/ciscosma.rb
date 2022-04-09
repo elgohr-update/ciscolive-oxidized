@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class CiscoSMA < Oxidized::Model
   # SMA prompt "mail.example.com> "

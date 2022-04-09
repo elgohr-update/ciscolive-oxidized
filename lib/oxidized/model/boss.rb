@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Boss < Oxidized::Model
   # Extreme Baystack Operating System Software(BOSS)

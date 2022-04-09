@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Planet < Oxidized::Model
   prompt(/^\r?([\w.@()-]+[#>]\s?)$/)

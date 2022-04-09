@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class NetScaler < Oxidized::Model
   prompt(/^([\w.-]*>\s?)$/)

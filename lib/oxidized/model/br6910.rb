@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class BR6910 < Oxidized::Model
   prompt(/^([\w.@()-]+[#>]\s?)$/)

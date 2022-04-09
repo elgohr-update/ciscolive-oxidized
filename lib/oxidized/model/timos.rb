@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 # Backward compatibility shim for deprecated model `timos`.
 # Migrate your source from `timos` to `sros`.

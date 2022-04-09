@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 # DCNOS is a ZebOS derivative by DCN (http://www.dcnglobal.com/)
 # In addition to products by DCN (now Yunke China), this OS type

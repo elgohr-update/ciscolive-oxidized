@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Aoscx < Oxidized::Model
   # previous command is repeated followed by "\eE", which sometimes ends up on last line

@@ -2,17 +2,19 @@
 
 module Oxidized
   class Jobs < Array
-    AVERAGE_DURATION  = 5   # initially presume nodes take 5s to complete
+    AVERAGE_DURATION  = 5 # initially presume nodes take 5s to complete
     MAX_INTER_JOB_GAP = 300 # add job if more than X from last job started
+
     attr_accessor :interval, :max, :want
 
     def initialize(max, interval, nodes)
-      @max       = max
+      @max = max
       # Set interval to 1 if interval is 0 (=disabled) so we don't break
       # the 'ceil' function
-      @interval  = interval.zero? ? 1 : interval
-      @nodes     = nodes
-      @last      = Time.now.utc
+      @interval = interval.zero? ? 1 : interval
+      @nodes    = nodes
+      @last     = Time.now.utc
+      # 为每个节点注入超时时间
       @durations = Array.new @nodes.size, AVERAGE_DURATION
       duration AVERAGE_DURATION
       super()
@@ -23,20 +25,24 @@ module Oxidized
       super
     end
 
+    # 超时时间
     def duration(last)
       if @durations.size > @nodes.size
         @durations.slice! @nodes.size...@durations.size
       elsif @durations.size < @nodes.size
         @durations.fill AVERAGE_DURATION, @durations.size...@nodes.size
       end
+      # FIFO
       @durations.push(last).shift
       @duration = @durations.inject(:+).to_f / @nodes.size # rolling average
       new_count
     end
 
+    # 刷新最新的数据
     def new_count
       @want = ((@nodes.size * @duration) / @interval).ceil
       @want = 1 if @want < 1
+
       @want = @nodes.size if @want > @nodes.size
       @want = @max if @want > @max
     end

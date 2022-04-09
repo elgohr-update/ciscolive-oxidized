@@ -14,9 +14,12 @@ module Oxidized
           end:   job.end,
           time:  job.time
         }
+
         @stats[job.status] ||= []
+        # FIFO，有序队列
         @stats[job.status].shift if @stats[job.status].size > @history_size
         @stats[job.status].push stat
+        # 状态记录
         @stats[:counter][job.status] += 1
       end
 
@@ -49,9 +52,11 @@ module Oxidized
 
       private
         def initialize
+          # 版本控制保留快照阈值
           @history_size = Oxidized.config.stats.history_size? || MAX_STAT
-          @mtimes = Array.new(@history_size, "unknown")
-          @stats  = {}
+
+          @mtimes          = Array.new(@history_size, "unknown")
+          @stats           = {}
           @stats[:counter] = Hash.new 0
         end
     end

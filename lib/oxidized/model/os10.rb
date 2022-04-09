@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class OS10 < Oxidized::Model
   # For switches running Dell EMC Networking OS10 #

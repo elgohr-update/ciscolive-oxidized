@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class AOSW < Oxidized::Model
   # AOSW Aruba Wireless, IAP, Instant Controller and Mobility Access Switches

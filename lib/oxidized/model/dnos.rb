@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class DNOS < Oxidized::Model
   # Force10 DNOS model #

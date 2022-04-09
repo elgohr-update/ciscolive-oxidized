@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 # IOS parser should work here
 

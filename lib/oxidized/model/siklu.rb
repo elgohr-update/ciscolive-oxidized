@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class Siklu < Oxidized::Model
   # Siklu EtherHaul #

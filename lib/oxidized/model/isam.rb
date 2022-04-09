@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class ISAM < Oxidized::Model
   # Alcatel ISAM 7302/7330 FTTN

@@ -2,15 +2,18 @@
 
 module Oxidized
   require "ipaddr"
-  require "oxidized/node"
+  require_relative "node"
+
   class Oxidized::NotSupported < OxidizedError; end
+
   class Oxidized::NodeNotFound < OxidizedError; end
+
   class Nodes < Array
     attr_accessor :source, :jobs
     alias put unshift
     def load(node_want = nil)
       with_lock do
-        new = []
+        new     = []
         @source = Oxidized.config.source.default
         Oxidized.mgr.add_source(@source) || raise(MethodNotFound, "cannot load node source '#{@source}', not found")
         Oxidized.logger.info "lib/oxidized/nodes.rb: Loading nodes"
@@ -71,11 +74,11 @@ module Oxidized
       return unless waiting.find_node_index(node)
 
       with_lock do
-        n = del node
-        n.user = opt["user"]
+        n       = del node
+        n.user  = opt["user"]
         n.email = opt["email"]
-        n.msg  = opt["msg"]
-        n.from = opt["from"]
+        n.msg   = opt["msg"]
+        n.from  = opt["from"]
         # set last job to nil so that the node is picked for immediate update
         n.last = nil
         put n
@@ -171,7 +174,7 @@ module Oxidized
 
       def yield_node_output(node_name)
         with_lock do
-          node = find { |n| n.name == node_name }
+          node   = find { |n| n.name == node_name }
           output = node.output.new
           raise Oxidized::NotSupported unless output.respond_to? :fetch
 

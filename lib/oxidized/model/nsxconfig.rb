@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 require "net/http"
 class NSXConfig < Oxidized::Model

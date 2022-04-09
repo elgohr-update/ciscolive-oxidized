@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class LinuxGeneric < Oxidized::Model
   prompt(/^(\w.*|\W.*)(:|#) /)

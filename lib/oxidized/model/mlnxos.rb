@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class MLNXOS < Oxidized::Model
   prompt(/([\w.@()-\[:\s\]]+[#>]\s)$/)

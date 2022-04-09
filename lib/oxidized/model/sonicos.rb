@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class SonicOS < Oxidized::Model
   # Applies to Sonicwall NSA series firewalls

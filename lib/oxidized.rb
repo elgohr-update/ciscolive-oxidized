@@ -5,7 +5,7 @@ require "fileutils"
 module Oxidized
   class OxidizedError < StandardError; end
 
-  Directory = File.expand_path(File.join(File.dirname(__FILE__), "../"))
+  DIRECTORY = File.expand_path(File.join(File.dirname(__FILE__), "../"))
 
   require "oxidized/version"
   require "oxidized/string"
@@ -17,6 +17,7 @@ module Oxidized
   require "oxidized/hook"
   require "oxidized/core"
 
+  # 模块全局变量
   def self.asetus
     @@asetus
   end
@@ -38,18 +39,21 @@ module Oxidized
   end
 
   def self.setup_logger
-    FileUtils.mkdir_p(Config::Log) unless File.directory?(Config::Log)
-    self.logger = if config.has_key?("use_syslog") && config.use_syslog
+    # 检查是否存在文件夹，不存在则新建
+    FileUtils.mkdir_p(Config::LOG) unless File.directory?(Config::LOG)
+
+    if config.has_key?("use_syslog") && config.use_syslog
       require "syslog/logger"
-      Syslog::Logger.new("oxidized")
+      @@logger = Syslog::Logger.new("oxidized")
     else
       require "logger"
       if config.has_key?("log")
-        Logger.new(File.expand_path(config.log))
+        @@logger = Logger.new(File.expand_path(config.log))
       else
-        Logger.new(STDERR)
+        @@logger = Logger.new(STDERR)
       end
     end
+    # 设置缺省日志级别
     logger.level = Logger::INFO unless config.debug
   end
 end

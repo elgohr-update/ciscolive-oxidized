@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class ARBOS < Oxidized::Model
   # Arbor OS model #

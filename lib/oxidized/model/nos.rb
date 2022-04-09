@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class NOS < Oxidized::Model
   # Brocade Network Operating System

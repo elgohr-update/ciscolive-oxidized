@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class CoriantTmos < Oxidized::Model
   comment "# "

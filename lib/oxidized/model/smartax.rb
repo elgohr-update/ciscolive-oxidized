@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class SmartAX < Oxidized::Model
   # Huawei SmartAX GPON/EPON/DOCSIS network access devices

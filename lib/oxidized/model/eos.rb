@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+
 
 class EOS < Oxidized::Model
   # Arista EOS model #
