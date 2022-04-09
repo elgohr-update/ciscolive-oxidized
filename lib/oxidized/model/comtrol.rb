@@ -1,5 +1,3 @@
-
-
 class Comtrol < Oxidized::Model
   # Used in Comtrol Industrial Switches, such as RocketLinx ES8510
 

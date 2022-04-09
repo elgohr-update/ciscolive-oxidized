@@ -1,5 +1,3 @@
-
-
 class SGOS < Oxidized::Model
   comment "!- "
   prompt(/\w+>|#/)

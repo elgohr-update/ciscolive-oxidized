@@ -9,8 +9,11 @@ module Oxidized
   class Oxidized::NodeNotFound < OxidizedError; end
 
   class Nodes < Array
+    # 类对象属性
     attr_accessor :source, :jobs
+    # 方法别名
     alias put unshift
+
     def load(node_want = nil)
       with_lock do
         new     = []
@@ -50,12 +53,14 @@ module Oxidized
       end
     end
 
+    # 全量节点数据
     def list
       with_lock do
         map { |e| e.serialize }
       end
     end
 
+    # 获取特定节点数据
     def show(node)
       with_lock do
         i = find_node_index node
@@ -63,6 +68,7 @@ module Oxidized
       end
     end
 
+    #
     def fetch(node_name, group)
       yield_node_output(node_name) do |node, output|
         output.fetch node, group
@@ -121,7 +127,7 @@ module Oxidized
     private
       def initialize(opts = {})
         super()
-        node = opts.delete :node
+        node   = opts.delete :node
         @mutex = Mutex.new # we compete for the nodes with webapi thread
         if (nodes = opts.delete(:nodes))
           replace nodes

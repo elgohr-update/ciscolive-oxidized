@@ -1,5 +1,3 @@
-
-
 class IPOS < Oxidized::Model
   # Ericsson SSR (IPOS)
   # Redback SE (SEOS)

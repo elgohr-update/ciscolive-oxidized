@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Oxidized
-  # 类单例方法
+  # 模块单例方法
   class << self
     def new(*args)
       Core.new args
@@ -12,11 +12,11 @@ module Oxidized
     class NoNodesFound < OxidizedError; end
 
     def initialize(_args)
-      # 基础配置信息
+      # 加载模块、类
       Oxidized.mgr = Manager.new
       # 钩子函数
       Oxidized.hooks = HookManager.from_config(Oxidized.config)
-      # 设备清单
+      # 加载设备清单
       nodes = Nodes.new
       raise NoNodesFound, "source returns no usable nodes" if nodes.size.zero?
 

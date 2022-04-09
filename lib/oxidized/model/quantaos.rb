@@ -1,5 +1,3 @@
-
-
 class QuantaOS < Oxidized::Model
   prompt(/^\((\w|\S)+\) (>|#)$/)
   comment "! "

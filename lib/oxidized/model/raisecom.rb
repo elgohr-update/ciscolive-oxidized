@@ -1,5 +1,3 @@
-
-
 class RAISECOM < Oxidized::Model
   comment "! "
   prompt(/([\w.@-]+[#>]\s?)$/)

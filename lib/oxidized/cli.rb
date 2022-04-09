@@ -6,6 +6,7 @@ module Oxidized
     require "oxidized"
     require "English"
 
+    # 运行 oxidized
     def run
       check_pid
       Process.daemon if @opts[:daemonize] || @opts[:D]
@@ -30,29 +31,31 @@ module Oxidized
         @pidfile = File.expand_path(Oxidized.config.pid)
       end
 
+      # 异常捕捉转储
       def crash(error)
         Oxidized.logger.fatal "Oxidized crashed, crashfile written in #{Config::CRASH}"
-        File.open Config::CRASH, "w" do |file|
-          file.puts "-" * 50
-          file.puts Time.now.utc
-          file.puts error.message + " [" + error.class.to_s + "]"
-          file.puts "-" * 50
-          file.puts error.backtrace
-          file.puts "-" * 50
+        File.open Config::CRASH, "w" do |f|
+          f.puts "-" * 50
+          f.puts Time.now.utc
+          f.puts error.message + " [" + error.class.to_s + "]"
+          f.puts "-" * 50
+          f.puts error.backtrace
+          f.puts "-" * 50
         end
       end
 
+      # oxidized 运行脚本参数解析
       def parse_opts
         opts = Slop.parse do |opt|
           opt.on "-d", "--debug", "turn on debugging"
           opt.on "-D", "--daemonize", "Daemonize/fork the process"
-          opt.on "-h", "--help", "show usage" do
-            puts opt
-            exit
-          end
-          opt.on "--show-exhaustive-config", "output entire configuration, including defaults" do
+          opt.on "-s", "--show-exhaustive-config", "output entire configuration, including defaults" do
             asetus = Config.load
             puts asetus.to_yaml asetus.cfg
+            Kernel.exit
+          end
+          opt.on "-h", "--help", "show usage" do
+            puts opt
             Kernel.exit
           end
           opt.on "-v", "--version", "show version" do

@@ -1,5 +1,3 @@
-
-
 # Developed against:
 # #show version
 # Switch ID       Hardware Version                Firmware Version

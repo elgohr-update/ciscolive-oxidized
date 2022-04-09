@@ -1,8 +1,6 @@
-
-
 class FujitsuPY < Oxidized::Model
   prompt(/^(\([\w.-]*\)\s#|^\S+#\s)$/)
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     cfg.cut_both

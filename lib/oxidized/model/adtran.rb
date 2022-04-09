@@ -1,5 +1,3 @@
-
-
 class Adtran < Oxidized::Model
   # Adtran
 

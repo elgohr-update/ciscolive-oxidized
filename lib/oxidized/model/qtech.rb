@@ -1,5 +1,3 @@
-
-
 class QTECH < Oxidized::Model
   comment "! "
 

@@ -13,7 +13,6 @@ module Oxidized
       def load(dir, file)
         # 动态加载模块
         require File.join(dir, "#{file}.rb")
-        p "loading #{File.join(dir, "#{file}.rb")}"
 
         klass = nil
         [Oxidized, Object].each do |mod|

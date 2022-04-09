@@ -1,5 +1,3 @@
-
-
 class Airfiber < Oxidized::Model
   # Ubiquiti Airfiber (tested with Airfiber 11FX)
 

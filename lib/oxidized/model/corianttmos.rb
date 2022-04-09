@@ -1,5 +1,3 @@
-
-
 class CoriantTmos < Oxidized::Model
   comment "# "
 

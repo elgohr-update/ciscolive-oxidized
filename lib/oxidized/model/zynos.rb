@@ -1,5 +1,3 @@
-
-
 class ZyNOS < Oxidized::Model
   # Used in Zyxel DSLAMs, such as SAM1316
 

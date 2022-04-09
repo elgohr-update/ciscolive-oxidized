@@ -1,5 +1,3 @@
-
-
 class LinuxGeneric < Oxidized::Model
   prompt(/^(\w.*|\W.*)(:|#) /)
   comment "# "

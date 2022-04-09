@@ -1,5 +1,3 @@
-
-
 class GrandStream < Oxidized::Model
   cmd "/cgi-bin/dologin?password=%<password>s" do |cfg| # rubocop:disable Style/FormatStringToken
     sid = JSON.parse(cfg)["body"]["sid"]

@@ -1,5 +1,3 @@
-
-
 class Catos < Oxidized::Model
   prompt(/^[\w.@-]+>\s?(\(enable\) )?$/)
   comment "# "

@@ -1,5 +1,3 @@
-
-
 class CiscoSMA < Oxidized::Model
   # SMA prompt "mail.example.com> "
   prompt(/^\r*([-\w. ]+\.[-\w. ]+\.[-\w. ]+[#>]\s+)$/)

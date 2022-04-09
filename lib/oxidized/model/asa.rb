@@ -1,11 +1,9 @@
-
-
 class ASA < Oxidized::Model
   # Cisco ASA model #
   # Only SSH supported for the sake of security
 
   prompt(/^\r*([\w.@()-\/]+[#>]\s?)$/)
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     cfg.cut_both
@@ -92,9 +90,9 @@ class ASA < Oxidized::Model
     # Multiple context mode
     cmd "changeto system" do |cfg|
       cmd "show running-config" do |systemcfg|
-        allcfg = "\n\n" + systemcfg + "\n\n"
+        allcfg   = "\n\n" + systemcfg + "\n\n"
         contexts = systemcfg.scan(/^context (\S+)$/)
-        files = systemcfg.scan(/config-url (\S+)$/)
+        files    = systemcfg.scan(/config-url (\S+)$/)
         contexts.each_with_index do |cont, i|
           allcfg = allcfg + "\n\n----------========== [ CONTEXT " + cont.join(" ") + " FILE " + files[i].join(" ") + " ] ==========----------\n\n"
           cmd "more " + files[i].join(" ") do |cfgcontext|

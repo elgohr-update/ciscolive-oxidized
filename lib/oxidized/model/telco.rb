@@ -1,5 +1,3 @@
-
-
 class TELCO < Oxidized::Model
   # Telco Systems T-Marc 3306
 

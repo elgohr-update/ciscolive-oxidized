@@ -1,5 +1,3 @@
-
-
 class PowerConnect < Oxidized::Model
   prompt(/^([\w\s.@-]+(\(\S*\))?[#>]\s?)$/) # allow spaces in hostname..dell does not limit it.. #
 
@@ -59,7 +57,7 @@ class PowerConnect < Oxidized::Model
   end
 
   def clean(cfg)
-    out = []
+    out         = []
     skip_blocks = 0
     cfg.each_line do |line|
       # If this is a stackable switch we should skip this block of information

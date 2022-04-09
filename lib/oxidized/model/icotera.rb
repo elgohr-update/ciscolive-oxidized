@@ -1,5 +1,3 @@
-
-
 class Icotera < Oxidized::Model
   comment "## "
 

@@ -1,10 +1,8 @@
-
-
 class XOS < Oxidized::Model
   # Extreme Networks XOS
 
   prompt(/^\s?\*?\s?[-\w]+\s?[-\w.~]+(:\d+)? [#>] $/)
-  comment  "# "
+  comment "# "
 
   cmd :all do |cfg|
     # xos inserts leading \r characters and other trailing white space.
@@ -45,7 +43,7 @@ class XOS < Oxidized::Model
 
   cfg :telnet, :ssh do
     post_login do
-      data = cmd "disable clipaging session"
+      data  = cmd "disable clipaging session"
       match = data.match(/^disable clipaging session\n\r?\*?\s?[-\w]+\s?[-\w.~]+(:\d+)? [#>] $/m)
       next if match
 

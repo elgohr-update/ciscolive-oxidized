@@ -1,5 +1,3 @@
-
-
 class HpeMsa < Oxidized::Model
   prompt(/^#\s?$/)
 

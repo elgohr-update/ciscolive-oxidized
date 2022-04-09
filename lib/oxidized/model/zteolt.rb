@@ -1,10 +1,8 @@
-
-
 class ZTEOLT < Oxidized::Model
   # Tested with C320 and C300 olt, firware 1.2.5P3 and 2.1.0
 
   prompt(/^([\w.@()-]+[#>]\s?)$/)
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     cfg.gsub!(/^% Invalid input detected at '\^' marker\.$|^\s+\^$/, "")

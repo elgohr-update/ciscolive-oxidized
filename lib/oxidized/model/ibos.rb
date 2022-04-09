@@ -1,11 +1,9 @@
-
-
 class IBOS < Oxidized::Model
   # IBOS model, Intelligent Broadband Operating System (iBOS)
   # Used in Waystream (previously PacketFront) Routers and Switches
 
   prompt(/^([\w.@()-]+[#>]\s?)$/)
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     cfg.each_line.to_a[1..-2].join

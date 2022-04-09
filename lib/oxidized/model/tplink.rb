@@ -1,5 +1,3 @@
-
-
 class TPLink < Oxidized::Model
   # tp-link prompt
   prompt(/^\r?([\w.@()-]+[#>]\s?)$/)

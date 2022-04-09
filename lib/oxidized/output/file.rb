@@ -10,6 +10,7 @@ module Oxidized
       @cfg = Oxidized.config.output.file
     end
 
+    # 初始化对象，如果用户已定义则自动跳出
     def setup
       return unless @cfg.empty?
 
@@ -18,6 +19,7 @@ module Oxidized
       raise NoConfig, "no output file config, edit ~/.config/oxidized/config"
     end
 
+    # 配置转储
     def store(node, outputs, opt = {})
       file = File.expand_path @cfg.directory
       file = File.join File.dirname(file), opt[:group] if opt[:group]
@@ -27,11 +29,14 @@ module Oxidized
       @commitref = file
     end
 
+    # 查询配置
     def fetch(node, group)
       cfg_dir   = File.expand_path @cfg.directory
       node_name = node.name
 
-      if group # group is explicitly defined by user
+      # 配置优先存储到用户定义属组，如未定义使用缺省的基础文件夹
+      # 否则遍历所有文件夹确定最终文件路径
+      if group
         cfg_dir = File.join File.dirname(cfg_dir), group
         File.read File.join(cfg_dir, node_name)
       elsif File.exist? File.join(cfg_dir, node_name) # node configuration file is stored on base directory

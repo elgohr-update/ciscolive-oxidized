@@ -1,5 +1,3 @@
-
-
 class VOLTAIRE < Oxidized::Model
   prompt(/([\w.@()-\[:\s\]]+[#>]\s|(One or more tests have failed.*))$/)
   comment "## "

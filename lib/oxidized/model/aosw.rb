@@ -1,5 +1,3 @@
-
-
 class AOSW < Oxidized::Model
   # AOSW Aruba Wireless, IAP, Instant Controller and Mobility Access Switches
   # Used in Alcatel OAW-4750 WLAN controller
@@ -11,7 +9,7 @@ class AOSW < Oxidized::Model
   # Support for Mobility Access Switches tested with S2500-48P & S2500-24P running 7.4.1.4_54199 and S2500-24P running 7.4.1.7_57823
   # All IAPs connected to a Instant Controller will have the same config output. Only the controller needs to be monitored.
 
-  comment  "# "
+  comment "# "
   prompt(/^([\w(:.@-]+(\)?\s?)[#>]\s?)$/)
 
   cmd :all do |cfg|

@@ -1,5 +1,3 @@
-
-
 class CiscoVPN3k < Oxidized::Model
   # Used in Cisco VPN3000 concentrators
   # it have buggy code 227 reply with whitespace before trailing bracket

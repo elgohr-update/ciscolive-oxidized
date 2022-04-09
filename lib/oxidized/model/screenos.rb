@@ -1,5 +1,3 @@
-
-
 class ScreenOS < Oxidized::Model
   # Netscreen ScreenOS model #
 

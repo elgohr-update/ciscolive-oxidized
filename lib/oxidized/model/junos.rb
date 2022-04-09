@@ -1,5 +1,3 @@
-
-
 class JunOS < Oxidized::Model
   comment "# "
 

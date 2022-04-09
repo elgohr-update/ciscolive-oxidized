@@ -1,5 +1,3 @@
-
-
 class MasterOS < Oxidized::Model
   # MRV MasterOS model #
 

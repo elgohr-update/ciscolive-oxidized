@@ -1,11 +1,9 @@
-
-
 class EOS < Oxidized::Model
   # Arista EOS model #
 
   prompt(/^.+[#>]$/)
 
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     cfg.cut_both

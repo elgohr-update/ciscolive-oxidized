@@ -1,5 +1,3 @@
-
-
 class PurityOS < Oxidized::Model
   # Pure Storage Purity OS
 

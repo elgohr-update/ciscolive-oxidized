@@ -1,5 +1,3 @@
-
-
 class Coriant8600 < Oxidized::Model
   comment "# "
 

@@ -1,11 +1,9 @@
-
-
 class CiscoSMB < Oxidized::Model
   # Cisco Small Business 300, 500, and ESW2 series switches
   # http://www.cisco.com/c/en/us/support/switches/small-business-300-series-managed-switches/products-release-notes-list.html
 
   prompt(/^\r?([\w.@()-]+[#>]\s?)$/)
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     lines = cfg.each_line.to_a[1..-2]

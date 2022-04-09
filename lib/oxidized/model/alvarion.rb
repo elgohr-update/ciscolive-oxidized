@@ -1,5 +1,3 @@
-
-
 class Alvarion < Oxidized::Model
   # Used in Alvarion wisp equipment
 

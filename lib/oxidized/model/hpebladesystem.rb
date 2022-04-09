@@ -1,5 +1,3 @@
-
-
 class HPEBladeSystem < Oxidized::Model
   # HPE Onboard Administrator
 

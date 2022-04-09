@@ -1,5 +1,3 @@
-
-
 class CiscoNGA < Oxidized::Model
   comment "# "
   prompt(/([\w.@-]+[#>]\s?)$/)

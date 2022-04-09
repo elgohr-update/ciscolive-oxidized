@@ -1,5 +1,3 @@
-
-
 class FiberDriver < Oxidized::Model
   prompt(/\w+#/)
   comment "! "

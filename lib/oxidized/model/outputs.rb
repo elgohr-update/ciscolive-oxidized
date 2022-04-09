@@ -1,5 +1,3 @@
-
-
 module Oxidized
   class Model
     class Outputs

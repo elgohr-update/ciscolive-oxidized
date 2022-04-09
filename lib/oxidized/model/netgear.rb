@@ -1,5 +1,3 @@
-
-
 class Netgear < Oxidized::Model
   comment "!"
   prompt(/^(\([\w\s\-.]+\)\s[#>])$/)

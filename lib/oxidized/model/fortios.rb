@@ -1,5 +1,3 @@
-
-
 class FortiOS < Oxidized::Model
   comment "# "
 

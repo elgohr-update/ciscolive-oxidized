@@ -6,8 +6,9 @@ module Oxidized
       attr_reader :node
 
       def initialize
-        @post_login                 = []
-        @pre_logout                 = []
+        @post_login = []
+        @pre_logout = []
+        # 初始化账号密码、执行类
         @username, @password, @exec = nil
       end
 

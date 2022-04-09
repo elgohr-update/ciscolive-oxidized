@@ -1,5 +1,3 @@
-
-
 class VRP < Oxidized::Model
   # Huawei VRP
 

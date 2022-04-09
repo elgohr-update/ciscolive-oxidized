@@ -1,5 +1,3 @@
-
-
 class SpeedTouch < Oxidized::Model
   prompt(/([\w{}=]+[>])$/)
   comment "! "

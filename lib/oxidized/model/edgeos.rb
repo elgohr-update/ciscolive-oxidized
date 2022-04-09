@@ -1,5 +1,3 @@
-
-
 class Edgeos < Oxidized::Model
   # EdgeOS #
 

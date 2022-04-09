@@ -1,5 +1,3 @@
-
-
 class DellX < Oxidized::Model
   # Used in Dell X-Series Switches
 
@@ -55,7 +53,7 @@ class DellX < Oxidized::Model
   end
 
   def clean(cfg)
-    out = []
+    out         = []
     skip_blocks = 0
     cfg.each_line do |line|
       # If this is a stackable switch we should skip this block of information

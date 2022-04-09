@@ -1,5 +1,3 @@
-
-
 class Cambium < Oxidized::Model
   cfg_cb = lambda do
     c_page = @m.click @m_page.link_with(text: "Configuration")

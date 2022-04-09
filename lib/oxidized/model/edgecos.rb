@@ -1,5 +1,3 @@
-
-
 class EdgeCOS < Oxidized::Model
   comment "! "
 

@@ -4,7 +4,7 @@ require "fileutils"
 
 module Oxidized
   class OxidizedError < StandardError; end
-
+  # 项目文件夹
   DIRECTORY = File.expand_path(File.join(File.dirname(__FILE__), "../"))
 
   require "oxidized/version"

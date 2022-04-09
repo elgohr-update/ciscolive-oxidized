@@ -1,5 +1,3 @@
-
-
 class NetScaler < Oxidized::Model
   prompt(/^([\w.-]*>\s?)$/)
   comment "# "
@@ -48,7 +46,7 @@ class NetScaler < Oxidized::Model
   def multiple_partition
     # Multiple partition mode
     cmd "show partition" do |cfg|
-      allcfg = ""
+      allcfg     = ""
       partitions = [["default"]] + cfg.scan(/Name: (\S+)$/)
       partitions.each do |part|
         allcfg = allcfg + "\n\n####################### [ partition " + part.join(" ") + " ] #######################\n\n"

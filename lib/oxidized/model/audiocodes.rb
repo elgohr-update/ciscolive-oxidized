@@ -1,5 +1,3 @@
-
-
 class AudioCodes < Oxidized::Model
   # Pull config from AudioCodes Mediant devices from version > 7.0
 

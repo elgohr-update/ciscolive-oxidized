@@ -1,8 +1,6 @@
-
-
 class FastIron < Oxidized::Model
   prompt(/^([\w.@()-]+[#>]\s?)$/)
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     # cfg.gsub! /\cH+\s{8}/, ''         # example how to handle pager

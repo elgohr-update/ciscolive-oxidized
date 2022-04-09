@@ -1,5 +1,3 @@
-
-
 class RouterOS < Oxidized::Model
   prompt(/\[\w+@\S+(\s+\S+)*\]\s?>\s?$/)
   comment "# "
@@ -32,12 +30,12 @@ class RouterOS < Oxidized::Model
   post do
     Oxidized.logger.debug "lib/oxidized/model/routeros.rb: running /export for routeros version #{@ros_version}"
     run_cmd = if vars(:remove_secret)
-      "/export hide-sensitive"
-    elsif (not @ros_version.nil?) && (@ros_version >= 7)
-      "/export show-sensitive"
-    else
-      "/export"
-    end
+                "/export hide-sensitive"
+              elsif (not @ros_version.nil?) && (@ros_version >= 7)
+                "/export show-sensitive"
+              else
+                "/export"
+              end
     cmd run_cmd do |cfg|
       cfg.gsub!(/\\\r?\n\s+/, "") # strip new line
       cfg.gsub!(/# inactive time\r\n/, "") # Remove time based system comment

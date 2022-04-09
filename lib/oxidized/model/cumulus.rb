@@ -1,5 +1,3 @@
-
-
 class Cumulus < Oxidized::Model
   prompt(/^((\w*)@(.*)):/)
   comment "# "
@@ -16,8 +14,8 @@ class Cumulus < Oxidized::Model
   # show the persistent configuration
   pre do
     # Set FRR or Quagga in config
-    routing_daemon = vars(:cumulus_routing_daemon) ? vars(:cumulus_routing_daemon).downcase : "quagga"
-    routing_conf_file = routing_daemon == "frr" ? "frr.conf" : "Quagga.conf"
+    routing_daemon       = vars(:cumulus_routing_daemon) ? vars(:cumulus_routing_daemon).downcase : "quagga"
+    routing_conf_file    = routing_daemon == "frr" ? "frr.conf" : "Quagga.conf"
     routing_daemon_shout = routing_daemon.upcase
 
     cfg = add_comment "THE HOSTNAME"

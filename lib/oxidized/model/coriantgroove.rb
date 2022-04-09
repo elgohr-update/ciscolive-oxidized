@@ -1,5 +1,3 @@
-
-
 class CoriantGroove < Oxidized::Model
   comment "# "
 

@@ -1,9 +1,7 @@
-
-
 class ACOS < Oxidized::Model
   # A10 ACOS model for AX and Thunder series
 
-  comment  "! "
+  comment "! "
 
   # ACOS prompt changes depending on the state of the device
   prompt(/^([-\w.\/:?\[\]()]+[#>]\s?)$/)

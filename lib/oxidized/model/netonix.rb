@@ -1,5 +1,3 @@
-
-
 class Netonix < Oxidized::Model
   prompt(/^[\w\s().@_\/:-]+#/)
 

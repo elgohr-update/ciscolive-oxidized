@@ -1,5 +1,3 @@
-
-
 class Casa < Oxidized::Model
   # Casa Systems CMTS
 

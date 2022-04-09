@@ -1,11 +1,9 @@
-
-
 class ZyNOSCLI < Oxidized::Model
   # Used in Zyxel DSLAMs, such as SAM1316
 
   # Typical prompt "XGS4600#"
   prompt(/^([\w.@()-]+[#>]\s\e7)$/)
-  comment  ";; "
+  comment ";; "
 
   cmd :all do |cfg|
     cfg.gsub!(/^.*\e7/, "")

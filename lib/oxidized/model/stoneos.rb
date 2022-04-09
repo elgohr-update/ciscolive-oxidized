@@ -1,5 +1,3 @@
-
-
 class StoneOS < Oxidized::Model
   # Hillstone Networks StoneOS software
 

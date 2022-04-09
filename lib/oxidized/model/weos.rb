@@ -1,5 +1,3 @@
-
-
 class WEOS < Oxidized::Model
   # Westell WEOS, works with Westell 8178G, Westell 8266G
 

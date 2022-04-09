@@ -1,5 +1,3 @@
-
-
 class OpenWrt < Oxidized::Model
   prompt(/^[^#]+#/)
   comment "#"
@@ -27,9 +25,9 @@ class OpenWrt < Oxidized::Model
   end
 
   post do
-    cfg = []
-    binary_files = vars(:openwrt_binary_files) || %w[/etc/dropbear/dropbear_rsa_host_key]
-    non_sensitive_files = vars(:openwrt_non_sensitive_files) || %w[rpcd uhttpd]
+    cfg                  = []
+    binary_files         = vars(:openwrt_binary_files) || %w[/etc/dropbear/dropbear_rsa_host_key]
+    non_sensitive_files  = vars(:openwrt_non_sensitive_files) || %w[rpcd uhttpd]
     partitions_to_backup = vars(:openwrt_partitions_to_backup) || %w[art devinfo u_env config caldata]
     @sysupgradefiles.lines.each do |sysupgradefile|
       sysupgradefile = sysupgradefile.strip

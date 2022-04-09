@@ -1,5 +1,3 @@
-
-
 class GaiaOS < Oxidized::Model
   # CheckPoint - Gaia OS Model
 
@@ -7,7 +5,7 @@ class GaiaOS < Oxidized::Model
   prompt(/^([\[\]\w.@:-]+[#>]\s?)$/)
 
   # Comment tag
-  comment  "# "
+  comment "# "
 
   cmd :all do |cfg|
     cfg.cut_both

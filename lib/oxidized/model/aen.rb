@@ -1,5 +1,3 @@
-
-
 class AEN < Oxidized::Model
   # Accedian
 

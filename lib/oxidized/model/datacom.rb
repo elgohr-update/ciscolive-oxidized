@@ -1,5 +1,3 @@
-
-
 class DataCom < Oxidized::Model
   comment "! "
 

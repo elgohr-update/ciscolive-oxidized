@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Oxidized
   require "net/ssh"
   require "net/ssh/proxy/command"

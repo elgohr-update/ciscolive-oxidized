@@ -1,5 +1,3 @@
-
-
 class Siklu < Oxidized::Model
   # Siklu EtherHaul #
 

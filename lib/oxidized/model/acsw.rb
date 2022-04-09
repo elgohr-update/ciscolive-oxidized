@@ -1,8 +1,6 @@
-
-
 class ACSW < Oxidized::Model
   prompt(/([\w.@()\/\\-]+[#>]\s?)/)
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     cfg.gsub!(/^% Invalid input detected at '\^' marker\.$|^\s+\^$/, "")

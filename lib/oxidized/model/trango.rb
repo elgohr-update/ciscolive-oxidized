@@ -1,5 +1,3 @@
-
-
 class Trango < Oxidized::Model
   # take a Trangolink sysinfo output and turn it into a configuration file
 
@@ -7,7 +5,7 @@ class Trango < Oxidized::Model
   comment "# "
 
   cmd "sysinfo" do |cfg|
-    out = []
+    out      = []
     comments = []
     cfg.each_line do |line|
       if line =~ /\[Opmode\] (off|on) \[Default Opmode\] (off|on)/
@@ -30,8 +28,8 @@ class Trango < Oxidized::Model
       next unless line =~ /\[IP\] (\S+) \[Subnet Mask\] (\S+) \[Gateway\] (\S+)/
 
       out << "ipconfig " + Regexp.last_match[1] + " " +
-             Regexp.last_match[2] + " " +
-             Regexp.last_match[3]
+        Regexp.last_match[2] + " " +
+        Regexp.last_match[3]
     end
     comments.push(*out).join "\n"
   end

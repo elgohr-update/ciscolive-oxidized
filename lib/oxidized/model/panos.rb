@@ -1,5 +1,3 @@
-
-
 class PanOS < Oxidized::Model
   # PaloAlto PAN-OS model #
 

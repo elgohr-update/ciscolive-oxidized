@@ -1,5 +1,3 @@
-
-
 class NecIX < Oxidized::Model
   prompt(/^(\([\w.-]*\)\s[#$]|^\S+[$#]\s?)$/)
   comment "! "

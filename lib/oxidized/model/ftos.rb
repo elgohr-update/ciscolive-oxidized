@@ -1,9 +1,7 @@
-
-
 class FTOS < Oxidized::Model
   # Force10 FTOS model #
 
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     cfg.each_line.to_a[2..-2].join

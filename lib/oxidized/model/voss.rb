@@ -1,5 +1,3 @@
-
-
 class Voss < Oxidized::Model
   # Extreme/Avaya VSP Operating System Software(VOSS)
   # Created by danielcoxman@gmail.com

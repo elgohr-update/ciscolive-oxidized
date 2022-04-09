@@ -1,5 +1,3 @@
-
-
 require "strscan"
 require_relative "outputs"
 
@@ -10,33 +8,37 @@ module Oxidized
     class << self
       def inherited(klass)
         if klass.superclass == Oxidized::Model
-          klass.instance_variable_set "@cmd",     (Hash.new { |h, k| h[k] = [] })
-          klass.instance_variable_set "@cfg",     (Hash.new { |h, k| h[k] = [] })
-          klass.instance_variable_set "@procs",   (Hash.new { |h, k| h[k] = [] })
-          klass.instance_variable_set "@expect",  []
+          klass.instance_variable_set "@cmd", (Hash.new { |h, k| h[k] = [] })
+          klass.instance_variable_set "@cfg", (Hash.new { |h, k| h[k] = [] })
+          klass.instance_variable_set "@procs", (Hash.new { |h, k| h[k] = [] })
+          klass.instance_variable_set "@expect", []
           klass.instance_variable_set "@comment", nil
-          klass.instance_variable_set "@prompt",  nil
-        else # we're subclassing some existing model, take its variables
+          klass.instance_variable_set "@prompt", nil
+        else
+          # we're subclassing some existing model, take its variables
           instance_variables.each do |var|
             klass.instance_variable_set var, instance_variable_get(var)
           end
         end
       end
 
+      # 配置批注
       def comment(str = "# ")
-        @comment = if block_given?
-          yield
+        if block_given?
+          @comment = yield
         elsif not @comment
-          str
+          @comment = str
         else
           @comment
         end
       end
 
+      # 设备登录成功提示符
       def prompt(regex = nil)
         @prompt = regex || @prompt
       end
 
+      # 相关配置
       def cfg(*methods, **args, &block)
         [methods].flatten.each do |method|
           process_args_block(@cfg[method.to_s], args, block)
@@ -47,6 +49,7 @@ module Oxidized
         @cfg
       end
 
+      # 脚本执行
       def cmd(cmd_arg = nil, **args, &block)
         if cmd_arg.class == Symbol
           process_args_block(@cmd[cmd_arg], args, block)
@@ -60,6 +63,7 @@ module Oxidized
         @cmd
       end
 
+      # 正则表达式交互逻辑
       def expect(regex, **args, &block)
         process_args_block(@expect, args, [regex, block])
       end
@@ -113,6 +117,7 @@ module Oxidized
       out = @input.cmd(string)
       return false unless out
 
+      # 检查输出文本是否为utf-8
       out = out.b unless Oxidized.config.input.utf8_encoded?
       self.class.cmds[:all].each do |all_block|
         out = instance_exec Oxidized::String.new(out), string, &all_block
@@ -158,7 +163,7 @@ module Oxidized
     def get
       Oxidized.logger.debug "lib/oxidized/model/model.rb Collecting commands' outputs"
       outputs = Outputs.new
-      procs = self.class.procs
+      procs   = self.class.procs
       self.class.cmds[:cmd].each do |command, block|
         out = cmd command, &block
         return false unless out

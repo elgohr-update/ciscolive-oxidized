@@ -2,6 +2,7 @@
 
 module Oxidized::Config::Vars
   # convenience method for accessing node, group or global level user variables
+  # 查询节点、属组、全局变量值
   def vars(name)
     if @node.vars&.has_key?(name)
       @node.vars[name]

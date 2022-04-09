@@ -1,10 +1,8 @@
-
-
 class NOS < Oxidized::Model
   # Brocade Network Operating System
 
   prompt(/^(?:\e\[..h)?[\w.-]+# $/)
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     cfg.cut_both

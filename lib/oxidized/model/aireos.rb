@@ -41,7 +41,7 @@ class Aireos < Oxidized::Model
 
   def clean(cfg)
     out = []
-    cfg = cfg.gsub(/\s{20,}/,"\n")
+    cfg = cfg.gsub(/\s{20,}/, "\n")
     cfg.each_line do |line|
       raise StandardError if /.*There is another transfer activity going on.*$/.match?(line)
       next if /^\s*$/.match?(line)

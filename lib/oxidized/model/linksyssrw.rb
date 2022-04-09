@@ -1,5 +1,3 @@
-
-
 class LinksysSRW < Oxidized::Model
   comment "! "
 

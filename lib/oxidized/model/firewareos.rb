@@ -1,8 +1,6 @@
-
-
 class FirewareOS < Oxidized::Model
   prompt(/^\[?\w*\]?\w*?(<\w*>)?(#|>)\s*$/)
-  comment  "-- "
+  comment "-- "
 
   cmd :all do |cfg|
     cfg.cut_both

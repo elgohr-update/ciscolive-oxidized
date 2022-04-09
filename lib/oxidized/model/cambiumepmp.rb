@@ -1,5 +1,3 @@
-
-
 class CambiumePMP < Oxidized::Model
   # Cambium ePMP Radios
 

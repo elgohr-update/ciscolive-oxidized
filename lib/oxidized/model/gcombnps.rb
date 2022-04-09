@@ -1,5 +1,3 @@
-
-
 class GcomBNPS < Oxidized::Model
   # For switches from GCOM Technologies Co.,Ltd. running the "Broadband Network Platform Software"
   # Author: Frederik Kriewitz <frederik@kriewitz.eu>

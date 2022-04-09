@@ -1,5 +1,3 @@
-
-
 class Hirschmann < Oxidized::Model
   prompt(/^[(\w\s)]+\s[>|#]+?$/)
 

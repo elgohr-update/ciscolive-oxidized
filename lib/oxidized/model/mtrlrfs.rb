@@ -1,9 +1,7 @@
-
-
 class Mtrlrfs < Oxidized::Model
   # Motorola RFS/Extreme WM
 
-  comment  "# "
+  comment "# "
 
   cmd :all do |cfg|
     # xos inserts leading \r characters and other trailing white space.

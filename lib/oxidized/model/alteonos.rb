@@ -1,5 +1,3 @@
-
-
 class ALTEONOS < Oxidized::Model
   prompt(/^\(?.+\)?\s?[#>]/)
 

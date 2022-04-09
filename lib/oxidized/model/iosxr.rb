@@ -1,10 +1,8 @@
-
-
 class IOSXR < Oxidized::Model
   # IOS XR model #
 
   prompt(/^(\r?[\w.@:\/-]+[#>]\s?)$/)
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     cfg.each_line.to_a[2..-2].join

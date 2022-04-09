@@ -1,5 +1,3 @@
-
-
 class Vyatta < Oxidized::Model
   # Brocade Vyatta / VyOS model #
 

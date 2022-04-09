@@ -1,5 +1,3 @@
-
-
 class Openbsd < Oxidized::Model
   # OpenBSD with custom promp, like user@hostname:~$
   # you can edit the one that your user uses, with root would be /root/.profile using the next PS1 def

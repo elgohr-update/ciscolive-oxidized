@@ -1,5 +1,3 @@
-
-
 class OpenGear < Oxidized::Model
   comment "# "
 

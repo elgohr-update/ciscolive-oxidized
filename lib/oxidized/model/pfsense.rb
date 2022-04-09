@@ -1,5 +1,3 @@
-
-
 class PfSense < Oxidized::Model
   # use other use than 'admin' user, 'admin' user cannot get ssh/exec. See issue #535
 

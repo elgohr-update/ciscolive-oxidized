@@ -1,5 +1,3 @@
-
-
 class EdgeSwitch < Oxidized::Model
   # Ubiquiti EdgeSwitch #
 

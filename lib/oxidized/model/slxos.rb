@@ -1,5 +1,3 @@
-
-
 class SLXOS < Oxidized::Model
   prompt(/^.*[>#]\s?$/i)
   comment "! "

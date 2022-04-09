@@ -1,10 +1,8 @@
-
-
 class SAOS < Oxidized::Model
   # Ciena SAOS switch
   # used for 6.x devices
 
-  comment  "! "
+  comment "! "
 
   cmd :all do |cfg|
     cfg.cut_both

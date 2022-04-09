@@ -1,5 +1,3 @@
-
-
 class TDRE < Oxidized::Model
   prompt(/^>$/)
   cmd "get -f"

@@ -1,5 +1,3 @@
-
-
 class Procurve < Oxidized::Model
   # previous command is repeated followed by "\eE", which sometimes ends up on last line
   # ssh switches prompt may start with \r, followed by the prompt itself, regex ([\w\s.-]+[#>] ), which ends the line

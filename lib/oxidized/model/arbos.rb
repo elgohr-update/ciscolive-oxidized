@@ -1,5 +1,3 @@
-
-
 class ARBOS < Oxidized::Model
   # Arbor OS model #
 

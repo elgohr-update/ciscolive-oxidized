@@ -1,5 +1,3 @@
-
-
 class SmartAX < Oxidized::Model
   # Huawei SmartAX GPON/EPON/DOCSIS network access devices
   prompt(/^([\w.-]+[>#])$/)
