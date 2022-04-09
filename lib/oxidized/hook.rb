@@ -33,10 +33,10 @@ module Oxidized
       @registered_hooks = Hash.new { |h, k| h[k] = [] }
     end
 
+    # 事件注册
     def register(event, name, hook_type, cfg)
       unless Events.include? event
-        raise ArgumentError,
-              "unknown event #{event}, available: #{Events.join ','}"
+        raise ArgumentError, "unknown event #{event}, available: #{Events.join ','}"
       end
 
       Oxidized.mgr.add_hook(hook_type) || raise("cannot load hook '#{hook_type}', not found")
@@ -52,6 +52,7 @@ module Oxidized
       Oxidized.logger.debug "Hook #{name.inspect} registered #{hook.class} for event #{event.inspect}"
     end
 
+    # 事件处理
     def handle(event, ctx_params = {})
       ctx       = HookContext.new ctx_params
       ctx.event = event
@@ -71,11 +72,13 @@ module Oxidized
 
     def initialize; end
 
+    # 继承 Hook 类必须实现的方法
     def cfg=(cfg)
       @cfg = cfg
       validate_cfg! if respond_to? :validate_cfg!
     end
 
+    # 继承 Hook 类必须实现的方法
     def run_hook(_ctx)
       raise NotImplementedError
     end

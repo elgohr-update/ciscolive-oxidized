@@ -13,8 +13,7 @@ class Exec < Oxidized::Hook
     # Syntax check
     if cfg.has_key? "timeout"
       @timeout = cfg.timeout
-      raise "invalid timeout value" unless @timeout.is_a?(Integer) &&
-                                           @timeout.positive?
+      raise "invalid timeout value" unless @timeout.is_a?(Integer) && @timeout.positive?
     end
 
     @async = !!cfg.async if cfg.has_key? "async"
@@ -24,8 +23,7 @@ class Exec < Oxidized::Hook
       raise "invalid cmd value" unless @cmd.is_a?(String) || @cmd.is_a?(Array)
     end
   rescue RuntimeError => e
-    raise ArgumentError,
-          "#{self.class.name}: configuration invalid: #{e.message}"
+    raise ArgumentError, "#{self.class.name}: configuration invalid: #{e.message}"
   end
 
   def run_hook(ctx)

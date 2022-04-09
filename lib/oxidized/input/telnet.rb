@@ -5,10 +5,12 @@ module Oxidized
   require "oxidized/input/cli"
 
   class Telnet < Input
-    RescueFail = {}.freeze
     include Input::CLI
     attr_reader :telnet
 
+    RescueFail = {}.freeze
+
+    # 初始化会话
     def connect(node)
       @node    = node
       @timeout = Oxidized.config.timeout
@@ -42,16 +44,16 @@ module Oxidized
       return send(cmd_str + "\r\n") unless expect
 
       Oxidized.logger.debug "Telnet: #{cmd_str} @#{@node.name}"
-      args = { "String"  => cmd_str,
-               "Match"   => expect,
-               "Timeout" => @timeout }
+      args = { "String" => cmd_str, "Match" => expect, "Timeout" => @timeout }
       @telnet.cmd args
     end
 
+    # 执行脚本
     def send(data)
       @telnet.write data
     end
 
+    # 节点脚本输出
     def output
       @telnet.output
     end
@@ -111,7 +113,7 @@ class Net::Telnet
           @log.flush
         end
 
-        line  += buf
+        line += buf
         line  = model.expects line
         match = expects.find { |re| line.match re }
         return match if match

@@ -13,9 +13,11 @@ module Oxidized
 
       Oxidized.asetus.user.source.sql.adapter   = "sqlite"
       Oxidized.asetus.user.source.sql.database  = File.join(Config::ROOT, "sqlite.db")
-      Oxidized.asetus.user.source.sql.table     = "devices"
+      Oxidized.asetus.user.source.sql.table     = "device"
       Oxidized.asetus.user.source.sql.map.name  = "name"
-      Oxidized.asetus.user.source.sql.map.model = "rancid"
+      Oxidized.asetus.user.source.sql.map.ip    = "ip"
+      Oxidized.asetus.user.source.sql.map.model = "model"
+      Oxidized.asetus.user.source.sql.map.model = "netdisco"
       Oxidized.asetus.save :user
       raise NoConfig, "no source sql config, edit ~/.config/oxidized/config"
     end
@@ -54,11 +56,8 @@ module Oxidized
       end
 
       def connect
-        Sequel.connect(adapter:  @cfg.adapter,
-                       host:     @cfg.host?,
-                       user:     @cfg.user?,
-                       password: @cfg.password?,
-                       database: @cfg.database)
+        data = { adapter: @cfg.adapter, host: @cfg.host?, user: @cfg.user?, password: @cfg.password?, database: @cfg.database }
+        Sequel.connect(data)
       rescue Sequel::AdapterNotFound => error
         raise OxidizedError, "SQL adapter gem not installed: " + error.message
       end

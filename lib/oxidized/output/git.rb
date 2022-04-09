@@ -155,10 +155,10 @@ module Oxidized
             file = File.join @opt[:group], file
           else
             repo = if repo.is_a?(::String)
-                     File.join File.dirname(repo), @opt[:group] + ".git"
-                   else
-                     repo[@opt[:group]]
-                   end
+              File.join File.dirname(repo), @opt[:group] + ".git"
+            else
+              repo[@opt[:group]]
+            end
           end
         end
 

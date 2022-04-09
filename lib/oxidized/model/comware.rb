@@ -44,6 +44,8 @@ class Comware < Oxidized::Model
         # HP V1950 r2432P06
         cmd "xtd-cli-mode on", /(#{@node.prompt}|Continue)/
         cmd "y", /(#{@node.prompt}|input password)/
+        cmd "y", /(#{@node.prompt}|Password)/
+        cmd "foes-bent-pile-atom-ship"
         cmd vars(:comware_cmdline)
 
         # HP V1950 OS r3208 (v7.1)

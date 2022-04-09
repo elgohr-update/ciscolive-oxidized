@@ -6,6 +6,7 @@ module Oxidized
     include Oxidized::Config::Vars
 
     class << self
+      # 模块继承
       def inherited(klass)
         if klass.superclass == Oxidized::Model
           klass.instance_variable_set "@cmd", (Hash.new { |h, k| h[k] = [] })
@@ -45,12 +46,14 @@ module Oxidized
         end
       end
 
+      # 节点运行配置 哈希
       def cfgs
         @cfg
       end
 
       # 脚本执行
       def cmd(cmd_arg = nil, **args, &block)
+        # 检查是否为符号表达式
         if cmd_arg.class == Symbol
           process_args_block(@cmd[cmd_arg], args, block)
         else
@@ -59,15 +62,18 @@ module Oxidized
         Oxidized.logger.debug "lib/oxidized/model/model.rb Added #{cmd_arg} to the commands list"
       end
 
+      # 节点相关的命令行 哈希
       def cmds
         @cmd
       end
 
       # 正则表达式交互逻辑
       def expect(regex, **args, &block)
+        # 添加正则表达式规则到 @expect 列表
         process_args_block(@expect, args, [regex, block])
       end
 
+      # 节点相关的正则表达式列表
       def expects
         @expect
       end
@@ -112,6 +118,7 @@ module Oxidized
 
     attr_accessor :input, :node
 
+    # 执行脚本并关联代码块函数
     def cmd(string, &block)
       Oxidized.logger.debug "lib/oxidized/model/model.rb Executing #{string}"
       out = @input.cmd(string)
@@ -131,26 +138,32 @@ module Oxidized
       process_cmd_output out, string
     end
 
+    # 配置转储形式：文本、GIT等
     def output
       @input.output
     end
 
+    # 节点登录设备方式，执行数据
     def send(data)
       @input.send data
     end
 
+    # 正则表达式捕捉并执行代码块
     def expect(regex, &block)
       self.class.expect regex, &block
     end
 
+    # 节点配置快照
     def cfg
       self.class.cfgs
     end
 
+    # 节点模块成功登录提示符
     def prompt
       self.class.prompt
     end
 
+    # 正则表达式捕捉并执行回调
     def expects(data)
       self.class.expects.each do |re, cb|
         if data.match re
@@ -160,25 +173,30 @@ module Oxidized
       data
     end
 
+    # 节点关联模板执行快照抓取
     def get
       Oxidized.logger.debug "lib/oxidized/model/model.rb Collecting commands' outputs"
       outputs = Outputs.new
       procs   = self.class.procs
+
+      # 依次执行 cmd 脚本
       self.class.cmds[:cmd].each do |command, block|
         out = cmd command, &block
         return false unless out
-
         outputs << out
       end
+      # 登出设备前执行回调函数
       procs[:pre].each do |pre_proc|
         outputs.unshift process_cmd_output(instance_eval(&pre_proc), "")
       end
+      # 登录设备后执行回调函数
       procs[:post].each do |post_proc|
         outputs << process_cmd_output(instance_eval(&post_proc), "")
       end
       outputs
     end
 
+    # 为每一行脚本添加注释符
     def comment(str)
       data = ""
       str.each_line do |line|

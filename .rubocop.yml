@@ -12,6 +12,9 @@ AllCops:
   SuggestExtensions: false
   Exclude:
     - '**/tmp/**/*'
+    - 'lib/oxidized/model/**/*'
+    - 'lib/oxidized/input/ssh.rb'
+    - 'lib/oxidized/string.rb'
     - '**/templates/**/*'
     - '**/vendor/**/*'
     - 'actionpack/lib/action_dispatch/journey/parser.rb'

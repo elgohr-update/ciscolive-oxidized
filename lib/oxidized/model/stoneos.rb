@@ -1,7 +1,8 @@
 class StoneOS < Oxidized::Model
   # Hillstone Networks StoneOS software
 
-  prompt(/^\r?[\w.()-]+[#>](\s)?$/)
+  # prompt(/^\r?[\w.()-]+[#>](\s)?$/)
+  prompt(/^\r?[\w.()-~]+[#>](\s)?$/)
   comment "# "
 
   expect(/^\s.*--More--.*$/) do |data, re|

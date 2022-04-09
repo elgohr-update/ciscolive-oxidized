@@ -5,6 +5,8 @@ module Oxidized
   require_relative "cli"
 
   class SSH < Input
+    include Input::CLI
+
     RescueFail = {
       debug: [
                Net::SSH::Disconnect
@@ -14,7 +16,6 @@ module Oxidized
                Net::SSH::AuthenticationFailed
              ]
     }.freeze
-    include Input::CLI
 
     class NoShell < OxidizedError; end
 
@@ -24,8 +25,8 @@ module Oxidized
       @pty_options = { term: "vt100" }
       @node.model.cfg["ssh"].each { |cb| instance_exec(&cb) }
       @log = File.open(Oxidized::Config::LOG + "/#{@node.ip}-ssh", "w") if Oxidized.config.input.debug?
-
       Oxidized.logger.debug "lib/oxidized/input/ssh.rb: Connecting to #{@node.name}"
+
       # 初始化 SSH 对象
       @ssh = Net::SSH.start(@node.ip, @node.auth[:username], make_ssh_opts)
       unless @exec
@@ -39,6 +40,7 @@ module Oxidized
       connected?
     end
 
+    # 检查设备是否已经连接
     def connected?
       @ssh && (not @ssh.closed?)
     end
@@ -53,6 +55,7 @@ module Oxidized
       end
     end
 
+    # 执行脚本
     def send(data)
       @ses.send_data data
     end
@@ -74,16 +77,20 @@ module Oxidized
         (@ssh.close rescue true) unless @ssh.closed?
       end
 
+      # 开启 SSH_CHANNEL
       def shell_open(ssh)
         @ses = ssh.open_channel do |ch|
+          # 打印并保存数据
           ch.on_data do |_ch, data|
             if Oxidized.config.input.debug?
               @log.print data
               @log.flush
             end
+            # 数据持久化以及字串修正
             @output << data
             @output = @node.model.expects @output
           end
+          # 请求 PTY_CHANNEL
           ch.request_pty(@pty_options) do |_ch, success_pty|
             raise NoShell, "Can't get PTY" unless success_pty
 
@@ -94,34 +101,41 @@ module Oxidized
         end
       end
 
+      # exec 属性
       def exec(state = nil)
         return nil if vars(:ssh_no_exec)
 
         state.nil? ? @exec : (@exec = state)
       end
 
+      # 执行脚本推送
       def cmd_shell(cmd, expect_re)
         @output = ""
         @ses.send_data "#{cmd}\n"
         @ses.process
         expect expect_re if expect_re
+
         @output
       end
 
+      # 捕捉 SSH 会话输出脚本
       def expect(*regexps)
         regexps = [regexps].flatten
         Oxidized.logger.debug "lib/oxidized/input/ssh.rb: expecting #{regexps.inspect} at #{node.name}"
+
+        # 开启计时器，执行代码块
         Timeout.timeout(Oxidized.config.timeout) do
+          # ssh 会话一直运行到代码块返回 false
           @ssh.loop(0.1) do
             sleep 0.1
             match = regexps.find { |regexp| @output.match regexp }
             return match if match
-
             true
           end
         end
       end
 
+      # 初始化 SSH 会话相关参数
       def make_ssh_opts
         secure   = Oxidized.config.input.ssh.secure?
         ssh_opts = {
@@ -133,7 +147,7 @@ module Oxidized
           port:                       (vars(:ssh_port) || 22).to_i
         }
 
-        auth_methods            = vars(:auth_methods) || %w[none publickey password]
+        auth_methods            = vars(:auth_methods) || %w[none password publickey]
         ssh_opts[:auth_methods] = auth_methods
         Oxidized.logger.debug "AUTH METHODS::#{auth_methods}"
 
@@ -153,6 +167,7 @@ module Oxidized
         ssh_opts
       end
 
+      # 初始化 SSH_PROXY 相关参数
       def make_ssh_proxy_command(proxy_host, proxy_port, secure)
         return nil unless !proxy_host.nil? && !proxy_host.empty?
 
