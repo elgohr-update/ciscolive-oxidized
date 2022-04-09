@@ -28,7 +28,6 @@ class HH3C < Oxidized::Model
   end
 
   cmd "display current-configuration" do |cfg|
-    cfg = cfg.each_line.to_a[0..-1].join
     cfg
   end
 
@@ -38,7 +37,7 @@ class HH3C < Oxidized::Model
     post_login do
       cmd "_cmdline-mode on", /All commands can be displayed and executed/
       cmd "Y", /input password:/
-      cmd "512900"
+      # cmd "512900"
     end
     pre_logout "quit"
   end

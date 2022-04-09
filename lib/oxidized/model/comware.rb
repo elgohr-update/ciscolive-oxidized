@@ -7,8 +7,8 @@ class Comware < Oxidized::Model
 
   # example how to handle pager
   # expect /^\s*---- More ----$/ do |data, re|
-  #  send ' '
-  #  data.sub re, ''
+  #   send ' '
+  #   data.sub re, ''
   # end
 
   cmd :all do |cfg|

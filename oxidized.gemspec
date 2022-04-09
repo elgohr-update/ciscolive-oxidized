@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "slop", "~> 4.0"
   s.add_runtime_dependency "psych", "~> 3.3.2"
   s.add_runtime_dependency "net-tftp", "~> 0.1.0"
+  s.add_runtime_dependency "net-ftp", "~> 0.1.3"
 
   s.add_development_dependency "bundler", "~> 2.0"
   s.add_development_dependency "codecov" if ENV["CI"] == "true"
@@ -34,7 +35,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "minitest", "~> 5.0"
   s.add_development_dependency "mocha", "~> 1.1"
   s.add_development_dependency "pry", "~> 0"
-  s.add_development_dependency "rake", "~> 13.0"
-  # s.add_development_dependency "rubocop",  "~> 1.0"
   s.add_development_dependency "simplecov"
 end

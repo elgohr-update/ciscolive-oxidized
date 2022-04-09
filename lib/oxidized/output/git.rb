@@ -65,6 +65,7 @@ module Oxidized
       update repo, file, outputs.to_cfg
     end
 
+    # 根据节点、属组查询配置快照
     def fetch(node, group)
       repo, path = yield_repo_and_path(node, group)
       repo       = Rugged::Repository.new repo
@@ -76,18 +77,20 @@ module Oxidized
     end
 
     # give a hash of all oid revision for the given node, and the date of the commit
+    # 根据节点、属组查询相关快照版本
     def version(node, group)
       repo, path = yield_repo_and_path(node, group)
 
-      repo   = Rugged::Repository.new repo
+      repo   = Rugged::Repository.new(repo)
       walker = Rugged::Walker.new(repo)
       walker.sorting(Rugged::SORT_DATE)
       walker.push(repo.head.target.oid)
       i   = -1
       tab = []
       walker.each do |commit|
+        # 查无差异
         next if commit.diff(paths: [path]).size.zero?
-
+        # 初始化数据结构
         hash           = {}
         hash[:date]    = commit.time.to_s
         hash[:oid]     = commit.oid
@@ -102,19 +105,21 @@ module Oxidized
     end
 
     # give the blob of a specific revision
+    # 根据节点、属组和OID 查询特定的快照版本
     def get_version(node, group, oid)
       repo, path = yield_repo_and_path(node, group)
-      repo       = Rugged::Repository.new repo
+      repo       = Rugged::Repository.new(repo)
       repo.blob_at(oid, path).content
     rescue StandardError
       "version not found"
     end
 
     # give a hash with the patch of a diff between 2 revision and the stats (added and deleted lines)
+    # 根据节点、属组和OID信息比较快照差异信息
     def get_diff(node, group, oid1, oid2)
       diff_commits = nil
       repo,        = yield_repo_and_path(node, group)
-      repo         = Rugged::Repository.new repo
+      repo         = Rugged::Repository.new(repo)
       commit       = repo.lookup(oid1)
 
       if oid2
@@ -141,12 +146,11 @@ module Oxidized
     private
       def yield_repo_and_path(node, group)
         repo, path = node.repo, node.name
-
         path       = "#{group}/#{node.name}" if group && @cfg.single_repo?
-
         [repo, path]
       end
 
+      # 更新仓库
       def update(repo, file, data)
         return if data.empty?
 
@@ -155,15 +159,15 @@ module Oxidized
             file = File.join @opt[:group], file
           else
             repo = if repo.is_a?(::String)
-              File.join File.dirname(repo), @opt[:group] + ".git"
-            else
-              repo[@opt[:group]]
-            end
+                     File.join File.dirname(repo), @opt[:group] + ".git"
+                   else
+                     repo[@opt[:group]]
+                   end
           end
         end
 
         begin
-          repo = Rugged::Repository.new repo
+          repo = Rugged::Repository.new(repo)
           update_repo repo, file, data
         rescue Rugged::OSError, Rugged::RepositoryError => open_error
           begin
@@ -175,6 +179,7 @@ module Oxidized
         end
       end
 
+      # 更新仓库数据
       def update_repo(repo, file, data)
         oid_old = repo.blob_at(repo.head.target_id, file) rescue nil
         return false if oid_old && (oid_old.content.b == data.b)
@@ -185,11 +190,13 @@ module Oxidized
 
         repo.config["user.name"]  = @user
         repo.config["user.email"] = @email
-        @commitref                = Rugged::Commit.create(repo,
-                                                          tree:       index.write_tree(repo),
-                                                          message:    @msg,
-                                                          parents:    repo.empty? ? [] : [repo.head.target].compact,
-                                                          update_ref: "HEAD")
+
+        # 设置 git commitref
+        @commitref = Rugged::Commit.create(repo,
+                                           tree:       index.write_tree(repo),
+                                           message:    @msg,
+                                           parents:    repo.empty? ? [] : [repo.head.target].compact,
+                                           update_ref: "HEAD")
 
         index.write
         true

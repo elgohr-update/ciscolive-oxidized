@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Oxidized::Nodes do
   before(:each) do
@@ -7,12 +7,12 @@ describe Oxidized::Nodes do
     Oxidized.setup_logger
 
     opts = {
-      input:    'ssh',
-      output:   'git',
-      model:    'junos',
-      username: 'alma',
-      password: 'armud',
-      prompt:   'test_prompt'
+      input:    "ssh",
+      output:   "git",
+      model:    "junos",
+      username: "alma",
+      password: "armud",
+      prompt:   "test_prompt"
     }
 
     Oxidized::Node.any_instance.stubs(:resolve_repo)
@@ -23,35 +23,35 @@ describe Oxidized::Nodes do
     @nodes = Oxidized::Nodes.new(nodes: @nodes_org.dup)
   end
 
-  describe '#put' do
-    it 'adds node to top of queue' do
+  describe "#put" do
+    it "adds node to top of queue" do
       @nodes.put @node
       @nodes.must_equal [@node] + @nodes_org
     end
   end
 
-  describe '#get' do
-    it 'returns node from top of queue' do
+  describe "#get" do
+    it "returns node from top of queue" do
       @nodes.get.must_equal @nodes_org.first
     end
-    it 'moves node from top to bottom' do
+    it "moves node from top to bottom" do
       @nodes.get
       @nodes.last.must_equal @nodes_org.first
     end
-    it 'does not change node count' do
+    it "does not change node count" do
       before = @nodes.size
       @nodes.get
       before.must_equal @nodes.size
     end
   end
 
-  describe '#next' do
-    it 'moves node to top of queue' do
+  describe "#next" do
+    it "moves node to top of queue" do
       node = @nodes[3]
       @nodes.next node.name
       @nodes.first.must_equal node
     end
-    it 'does not change node count' do
+    it "does not change node count" do
       before = @nodes.size
       @nodes.next @nodes[3].name
       before.must_equal @nodes.size
