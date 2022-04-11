@@ -115,7 +115,7 @@ class Net::Telnet
 
         line += buf
         line  = model.expects line
-        match = expects.find { |re| line.match re }
+        match = expects.find { |re| line.match? re }
         return match if match
       end
     end

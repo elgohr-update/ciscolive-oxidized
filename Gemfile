@@ -9,4 +9,5 @@ group :rubocop do
   gem "rubocop-rails", require: false
 end
 
+gem "awesome_print"
 gem "rake", "~> 13.0"

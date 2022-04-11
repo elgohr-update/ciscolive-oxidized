@@ -166,7 +166,8 @@ module Oxidized
     # 正则表达式捕捉并执行回调
     def expects(data)
       self.class.expects.each do |re, cb|
-        if data.match re
+        # 实例化的对象接收数据，执行回调函数
+        if data.match? re
           data = cb.arity == 2 ? instance_exec([data, re], &cb) : instance_exec(data, &cb)
         end
       end
@@ -224,7 +225,7 @@ module Oxidized
     end
 
     def screen_scrape
-      @input.class.to_s.match(/Telnet/) || vars(:ssh_no_exec)
+      @input.class.to_s.match?(/Telnet/) || vars(:ssh_no_exec)
     end
 
     private

@@ -87,8 +87,7 @@ module Oxidized
               @log.flush
             end
             # 数据持久化以及字串修正
-            @output << data
-            @output = @node.model.expects @output
+            @output << @node.model.expects(data)
           end
           # 请求 PTY_CHANNEL
           ch.request_pty(@pty_options) do |_ch, success_pty|
@@ -114,7 +113,7 @@ module Oxidized
         @ses.send_data "#{cmd}\n"
         @ses.process
         expect expect_re if expect_re
-
+        # 运行结果
         @output
       end
 
@@ -128,7 +127,7 @@ module Oxidized
           # ssh 会话一直运行到代码块返回 false
           @ssh.loop(0.1) do
             sleep 0.1
-            match = regexps.find { |regexp| @output.match regexp }
+            match = regexps.find { |regexp| @output.match? regexp }
             return match if match
             true
           end

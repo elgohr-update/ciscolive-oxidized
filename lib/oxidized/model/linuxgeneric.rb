@@ -9,8 +9,15 @@ class LinuxGeneric < Oxidized::Model
 
   cmd :all do |cfg|
     cfg.gsub!(/^(default (\S+).* (expires) ).*/, '\\1 <redacted>')
-    cfg.cut_both
+    # cfg.gsub! "careline", ""
+    # cfg.cut_both
   end
+
+  cmd "whoami" do |cfg|
+    cfg
+  end
+
+  cmd "ip -4 -o a"
 
   # show the persistent configuration
   pre do
@@ -66,9 +73,9 @@ class LinuxGeneric < Oxidized::Model
       end
     end
 
-    pre_logout do
-      cmd "exit" if vars(:enable)
-    end
+    # pre_logout do
+    #   cmd "exit" if vars(:enable)
+    # end
     pre_logout "exit"
   end
 end
