@@ -7,6 +7,9 @@ module Oxidized
   class SSH < Input
     include Input::CLI
 
+    # 类对象属性
+    attr_reader :output, :node
+
     RescueFail = {
       debug: [
                Net::SSH::Disconnect
@@ -60,8 +63,6 @@ module Oxidized
       @ses.send_data data
     end
 
-    attr_reader :output
-
     def pty_options(hash)
       @pty_options = @pty_options.merge hash
     end
@@ -87,8 +88,11 @@ module Oxidized
               @log.flush
             end
             # 数据持久化以及字串修正
-            @output << @node.model.expects(data)
+            @output << data
           end
+          # 正则表达式字串处理
+          @output = @node.model.expects(@output)
+
           # 请求 PTY_CHANNEL
           ch.request_pty(@pty_options) do |_ch, success_pty|
             raise NoShell, "Can't get PTY" unless success_pty
@@ -107,17 +111,20 @@ module Oxidized
         state.nil? ? @exec : (@exec = state)
       end
 
-      # 执行脚本推送
+      # 通过 channel 执行脚本下发，每次下发均需要将 @output 置空
+      # 默认情况下，脚本执行后需要匹配设备的 @prompt 提示符，不匹配将超时报错
       def cmd_shell(cmd, expect_re)
         @output = ""
         @ses.send_data "#{cmd}\n"
         @ses.process
+        # 定时器动态捕捉脚本下发后是否命中正则表达式规则
         expect expect_re if expect_re
+
         # 运行结果
         @output
       end
 
-      # 捕捉 SSH 会话输出脚本
+      # 根据 Array 列表参数执行正则表达式代码块逻辑
       def expect(*regexps)
         regexps = [regexps].flatten
         Oxidized.logger.debug "lib/oxidized/input/ssh.rb: expecting #{regexps.inspect} at #{node.name}"

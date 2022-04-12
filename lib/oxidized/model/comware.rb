@@ -6,16 +6,16 @@ class Comware < Oxidized::Model
   comment "# "
 
   # example how to handle pager
-  # expect /^\s*---- More ----$/ do |data, re|
-  #   send ' '
-  #   data.sub re, ''
-  # end
+  expect /^\s*---- More ----$/ do |data, re|
+    send ' '
+    data.sub re, ''
+  end
 
   cmd :all do |cfg|
     # cfg.gsub! /^.*\e\[42D/, ''        # example how to handle pager
     # skip rogue ^M
     cfg = cfg.delete "\r"
-    cfg.cut_both
+    # cfg.cut_both
   end
 
   cmd :secret do |cfg|
@@ -56,7 +56,7 @@ class Comware < Oxidized::Model
     end
 
     post_login "screen-length disable"
-    post_login "undo terminal monitor"
+    # post_login "undo terminal monitor"
     pre_logout "quit"
   end
 

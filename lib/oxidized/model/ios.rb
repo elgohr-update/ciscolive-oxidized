@@ -3,10 +3,10 @@ class IOS < Oxidized::Model
   comment "! "
 
   # example how to handle pager
-  # expect /^\s--More--\s+.*$/ do |data, re|
-  #  send ' '
-  #  data.sub re, ''
-  # end
+  expect /^\s--More--\s+.*$/ do |data, re|
+   send ' '
+   data.sub re, ''
+  end
 
   # non-preferred way to handle additional PW prompt
   # expect /^[\w.]+>$/ do |data|

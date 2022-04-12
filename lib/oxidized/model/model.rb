@@ -34,26 +34,26 @@ module Oxidized
         end
       end
 
-      # 设备登录成功提示符
+      # 设置登录提示符 @prompt 字串
       def prompt(regex = nil)
         @prompt = regex || @prompt
       end
 
-      # 相关配置
+      # 设置 cfg 配置到 @cfg HASH 容器
       def cfg(*methods, **args, &block)
         [methods].flatten.each do |method|
           process_args_block(@cfg[method.to_s], args, block)
         end
       end
 
-      # 节点运行配置 哈希
+      # 节点运行配置 HASH
       def cfgs
         @cfg
       end
 
-      # 脚本执行
+      # 设置执行脚本到 @cmd HASH 容器
       def cmd(cmd_arg = nil, **args, &block)
-        # 检查是否为符号表达式
+        # 检查是否为符号类型
         if cmd_arg.class == Symbol
           process_args_block(@cmd[cmd_arg], args, block)
         else
@@ -62,21 +62,26 @@ module Oxidized
         Oxidized.logger.debug "lib/oxidized/model/model.rb Added #{cmd_arg} to the commands list"
       end
 
-      # 节点相关的命令行 哈希
+      # 节点相关的命令行 HASH
       def cmds
         @cmd
       end
 
-      # 正则表达式交互逻辑
+      # 设置模型正则表达式处理逻辑保存到 @expect Array 属性
       def expect(regex, **args, &block)
         # 添加正则表达式规则到 @expect 列表
         process_args_block(@expect, args, [regex, block])
       end
 
-      # 节点相关的正则表达式列表
+      # 节点相关的正则表达式 Array
       def expects
         @expect
       end
+
+      # @author Saku Ytti <saku@ytti.fi>
+      # @since 0.0.39
+      # @return [Hash] hash proc procs :pre+:post to be prepended/postfixed to output
+      attr_reader :procs, :expect
 
       # calls the block at the end of the model, prepending the output of the
       # block to the output string
@@ -100,13 +105,9 @@ module Oxidized
         process_args_block(@procs[:post], args, block)
       end
 
-      # @author Saku Ytti <saku@ytti.fi>
-      # @since 0.0.39
-      # @return [Hash] hash proc procs :pre+:post to be prepended/postfixed to output
-      attr_reader :procs
-
       private
         def process_args_block(target, args, block)
+          # 向特定属性追加元素，均为哈希形式
           if args[:clear]
             target.replace([block])
           else
@@ -121,10 +122,11 @@ module Oxidized
     # 执行脚本并关联代码块函数
     def cmd(string, &block)
       Oxidized.logger.debug "lib/oxidized/model/model.rb Executing #{string}"
+      # 具体的登录方式下执行脚本，并做早期异常拦截
       out = @input.cmd(string)
       return false unless out
 
-      # 检查输出文本是否为utf-8
+      # 是否需要 UTF8编码、全局配置处理以及移除敏感信息
       out = out.b unless Oxidized.config.input.utf8_encoded?
       self.class.cmds[:all].each do |all_block|
         out = instance_exec Oxidized::String.new(out), string, &all_block
@@ -134,6 +136,8 @@ module Oxidized
           out = instance_exec Oxidized::String.new(out), string, &all_block
         end
       end
+
+      # 将脚本输出字串转换为 Oxidized::String，方便调用部分方法
       out = instance_exec Oxidized::String.new(out), &block if block
       process_cmd_output out, string
     end
@@ -143,17 +147,17 @@ module Oxidized
       @input.output
     end
 
-    # 节点登录设备方式，执行数据
+    # 节点登录设备方式，执行配置下发
     def send(data)
       @input.send data
     end
 
-    # 正则表达式捕捉并执行代码块
+    # 向 @expect 属性追加正则表达式处理逻辑
     def expect(regex, &block)
       self.class.expect regex, &block
     end
 
-    # 节点配置快照
+    # 节点相关的配置快照
     def cfg
       self.class.cfgs
     end
@@ -166,11 +170,13 @@ module Oxidized
     # 正则表达式捕捉并执行回调
     def expects(data)
       self.class.expects.each do |re, cb|
-        # 实例化的对象接收数据，执行回调函数
+        # 实例化的对象接收数据，执行回调函数。其中 arity 动态判断需要接收几个参数
+        # instance_exec 实例化对象接收参数并执行代码块，其结果返回给 data
         if data.match? re
           data = cb.arity == 2 ? instance_exec([data, re], &cb) : instance_exec(data, &cb)
         end
       end
+      # 兜底返回
       data
     end
 
@@ -182,6 +188,7 @@ module Oxidized
 
       # 依次执行 cmd 脚本
       self.class.cmds[:cmd].each do |command, block|
+        # @input cmd 方法 隐式调用匹配到 @prompt
         out = cmd command, &block
         return false unless out
         outputs << out

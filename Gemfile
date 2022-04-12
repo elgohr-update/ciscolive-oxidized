@@ -9,5 +9,5 @@ group :rubocop do
   gem "rubocop-rails", require: false
 end
 
-gem "awesome_print"
+gem "net-ssh", "~> 5.2"
 gem "rake", "~> 13.0"
