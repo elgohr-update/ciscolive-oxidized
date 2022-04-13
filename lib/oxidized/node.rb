@@ -13,6 +13,7 @@ module Oxidized
     # 节点相关方法属性
     attr_reader :name, :ip, :model, :input, :output, :group, :auth, :prompt, :vars, :last, :repo
     attr_accessor :running, :user, :email, :msg, :from, :stats, :retry
+
     # 别名方法
     alias running? running
 
@@ -72,6 +73,7 @@ module Oxidized
 
     # 调度 input 方法
     def run_input(input)
+      # 异常拦截
       rescue_fail = {}
       [input.class::RescueFail, input.class.superclass::RescueFail].each do |hash|
         hash.each do |level, errors|
@@ -81,6 +83,7 @@ module Oxidized
         end
       end
 
+      # 尝试联结设备并执行配置抓取，并做异常拦截
       begin
         input.connect(self) && input.get
       rescue *rescue_fail.keys => err
@@ -94,9 +97,10 @@ module Oxidized
         false
       rescue StandardError => err
         crash_dir  = Oxidized.config.crash.directory
-        crash_file = Oxidized.config.crash.hostnames? ? name : ip.to_s
+        crash_file = Oxidized.config.crash.hostname? ? name : ip.to_s
         FileUtils.mkdir_p(crash_dir) unless File.directory?(crash_dir)
 
+        # 异常日志转储
         File.open File.join(crash_dir, crash_file), "w" do |fh|
           fh.puts Time.now.utc
           fh.puts err.message + " [" + err.class.to_s + "]"

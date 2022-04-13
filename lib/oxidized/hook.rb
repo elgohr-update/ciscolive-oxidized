@@ -2,6 +2,7 @@
 
 module Oxidized
   class HookManager
+    # 类方法
     class << self
       def from_config(cfg)
         mgr = new
@@ -16,9 +17,11 @@ module Oxidized
 
     # HookContext is passed to each hook. It can contain anything related to the
     # event in question. At least it contains the event name
+    # 定义钩子函数结构体
     class HookContext < OpenStruct; end
 
     # RegisteredHook is a container for a Hook instance
+    # 钩子函数注册入口
     RegisteredHook = Struct.new(:name, :hook)
 
     Events = %i[
