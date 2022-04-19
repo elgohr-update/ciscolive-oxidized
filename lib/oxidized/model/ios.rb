@@ -1,9 +1,10 @@
 class IOS < Oxidized::Model
+  # 此处调用的均为类方法，非类实例变量方法
   prompt(/^([\w.@()-]+[#>]\s?)$/)
   comment "! "
 
   # example how to handle pager
-  expect /^\s--More--\s+.*$/ do |data, re|
+  expect /^(\s--More--\s+.*)$/i do |data, re|
    send ' '
    data.sub re, ''
   end
@@ -131,8 +132,8 @@ class IOS < Oxidized::Model
         cmd vars(:enable)
       end
     end
-    post_login "terminal length 0"
-    post_login "terminal width 0"
+    # post_login "terminal length 0"
+    # post_login "terminal width 0"
     pre_logout "exit"
   end
 end

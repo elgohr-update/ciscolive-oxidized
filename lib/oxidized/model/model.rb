@@ -5,13 +5,15 @@ module Oxidized
   class Model
     include Oxidized::Config::Vars
 
+    # 类方法属性
+    # 继承该类自动会具备类方法
     class << self
       # 模块继承
       def inherited(klass)
         if klass.superclass == Oxidized::Model
-          klass.instance_variable_set "@cmd", (Hash.new { |h, k| h[k] = [] })
-          klass.instance_variable_set "@cfg", (Hash.new { |h, k| h[k] = [] })
-          klass.instance_variable_set "@procs", (Hash.new { |h, k| h[k] = [] })
+          klass.instance_variable_set "@cmd", Hash.new { |h, k| h[k] = [] }
+          klass.instance_variable_set "@cfg", Hash.new { |h, k| h[k] = [] }
+          klass.instance_variable_set "@procs", Hash.new { |h, k| h[k] = [] }
           klass.instance_variable_set "@expect", []
           klass.instance_variable_set "@comment", nil
           klass.instance_variable_set "@prompt", nil
@@ -26,7 +28,7 @@ module Oxidized
       # 配置批注
       def comment(str = "# ")
         if block_given?
-          @comment = yield
+          @comment = yield str
         elsif not @comment
           @comment = str
         else
@@ -36,12 +38,15 @@ module Oxidized
 
       # 设置登录提示符 @prompt 字串
       def prompt(regex = nil)
+        # regex = Regexp.new(regex) unless regex.class == Regexp
         @prompt = regex || @prompt
       end
 
       # 设置 cfg 配置到 @cfg HASH 容器
       def cfg(*methods, **args, &block)
         [methods].flatten.each do |method|
+          # 向 @cfg[method] 添加代码块处理逻辑
+          # 成功登录设备后，登出设备之前节点设置钩子函数
           process_args_block(@cfg[method.to_s], args, block)
         end
       end
@@ -53,7 +58,7 @@ module Oxidized
 
       # 设置执行脚本到 @cmd HASH 容器
       def cmd(cmd_arg = nil, **args, &block)
-        # 检查是否为符号类型
+        # 检查是否为符号类型，随后向 @cmd 追加代码块处理逻辑
         if cmd_arg.class == Symbol
           process_args_block(@cmd[cmd_arg], args, block)
         else
@@ -81,7 +86,7 @@ module Oxidized
       # @author Saku Ytti <saku@ytti.fi>
       # @since 0.0.39
       # @return [Hash] hash proc procs :pre+:post to be prepended/postfixed to output
-      attr_reader :procs, :expect
+      attr_reader :procs
 
       # calls the block at the end of the model, prepending the output of the
       # block to the output string
@@ -91,6 +96,7 @@ module Oxidized
       # @yield expects block which should return [String]
       # @return [void]
       def pre(**args, &block)
+        # 向 @procs[:pre] 中追加代码块处理逻辑
         process_args_block(@procs[:pre], args, block)
       end
 
@@ -102,12 +108,13 @@ module Oxidized
       # @yield expects block which should return [String]
       # @return [void]
       def post(**args, &block)
+        # 向 @procs[:post] 中追加代码块处理逻辑
         process_args_block(@procs[:post], args, block)
       end
 
       private
         def process_args_block(target, args, block)
-          # 向特定属性追加元素，均为哈希形式
+          # 向特定属性追加元素，均为数组形式 | Array
           if args[:clear]
             target.replace([block])
           else
@@ -117,6 +124,7 @@ module Oxidized
         end
     end
 
+    # 类对象属性：设备登录方法【TELNET SSH HTTP HTTPS】，具体节点信息
     attr_accessor :input, :node
 
     # 执行脚本并关联代码块函数
@@ -129,26 +137,30 @@ module Oxidized
       # 是否需要 UTF8编码、全局配置处理以及移除敏感信息
       out = out.b unless Oxidized.config.input.utf8_encoded?
       self.class.cmds[:all].each do |all_block|
+        # 传递变量给实例对象，同时执行回调函数
         out = instance_exec Oxidized::String.new(out), string, &all_block
       end
       if vars :remove_secret
         self.class.cmds[:secret].each do |all_block|
+          # 传递变量给实例对象，同时执行回调函数
           out = instance_exec Oxidized::String.new(out), string, &all_block
         end
       end
 
       # 将脚本输出字串转换为 Oxidized::String，方便调用部分方法
+      # 传递变量给实例对象，同时执行回调函数
       out = instance_exec Oxidized::String.new(out), &block if block
       process_cmd_output out, string
     end
 
-    # 配置转储形式：文本、GIT等
+    # 配置转储形式：文本、GIT等，此处打印执行结果
     def output
       @input.output
     end
 
     # 节点登录设备方式，执行配置下发
     def send(data)
+      # 设备登录方法必须实现 send method
       @input.send data
     end
 
@@ -173,7 +185,8 @@ module Oxidized
         # 实例化的对象接收数据，执行回调函数。其中 arity 动态判断需要接收几个参数
         # instance_exec 实例化对象接收参数并执行代码块，其结果返回给 data
         if data.match? re
-          data = cb.arity == 2 ? instance_exec([data, re], &cb) : instance_exec(data, &cb)
+          # 检查回调函数入参是否刚好为 2
+          data = (cb.arity == 2) ? instance_exec([data, re], &cb) : instance_exec(data, &cb)
         end
       end
       # 兜底返回

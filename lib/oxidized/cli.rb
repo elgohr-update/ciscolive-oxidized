@@ -9,7 +9,7 @@ module Oxidized
     # 运行 oxidized
     def run
       check_pid
-      Process.daemon if @opts[:daemonize] || @opts[:D]
+      Process.daemon if @options[:daemonize] || @options[:D]
       write_pid
       begin
         Oxidized.logger.info "Oxidized starting, running as pid #{$PROCESS_ID}"
@@ -23,9 +23,9 @@ module Oxidized
 
     private
       def initialize
-        _args, @opts = parse_opts
+        _args, @options = parse_opts
 
-        Config.load(@opts)
+        Config.load @options
         Oxidized.setup_logger
 
         @pidfile = File.expand_path(Oxidized.config.pid)
@@ -33,7 +33,7 @@ module Oxidized
 
       # 异常捕捉转储
       def crash(error)
-        Oxidized.logger.fatal "Oxidized crashed, crashfile written in #{Config::CRASH}"
+        Oxidized.logger.fatal "Oxidized crashed, crash file written in #{Config::CRASH}"
         File.open Config::CRASH, "w" do |f|
           f.puts "-" * 50
           f.puts Time.now.utc

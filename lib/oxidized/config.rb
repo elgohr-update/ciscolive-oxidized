@@ -7,6 +7,11 @@ module Oxidized
 
   class InvalidConfig < OxidizedError; end
 
+  # 模块单例方法属性
+  class << self
+    attr_accessor :mgr, :hooks
+  end
+
   # 模块配置类对象
   class Config
     ROOT  = ENV["OXIDIZED_HOME"] || File.join(ENV["HOME"], ".config", "oxidized")
@@ -34,8 +39,8 @@ module Oxidized
       asetus.default.interval    = 3600
       asetus.default.use_syslog  = false
       asetus.default.debug       = false
-      asetus.default.threads     = 50
-      asetus.default.timeout     = 30
+      asetus.default.threads     = 30
+      asetus.default.timeout     = 15
       asetus.default.retries     = 1
       asetus.default.prompt      = /^([\w.@-]+[#>]\s?)$/
       asetus.default.rest        = "127.0.0.1:8888" # or false to disable
@@ -78,10 +83,5 @@ module Oxidized
 
       asetus
     end
-  end
-
-  # 模块单例方法属性
-  class << self
-    attr_accessor :mgr, :hooks
   end
 end

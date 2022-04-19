@@ -89,9 +89,9 @@ module Oxidized
             end
             # 数据持久化以及字串修正
             @output << data
+            # CLI 输出结构后，调用正则表达式字串处理
+            @output = @node.model.expects(@output)
           end
-          # 正则表达式字串处理
-          @output = @node.model.expects(@output)
 
           # 请求 PTY_CHANNEL
           ch.request_pty(@pty_options) do |_ch, success_pty|
@@ -134,6 +134,7 @@ module Oxidized
           # ssh 会话一直运行到代码块返回 false
           @ssh.loop(0.1) do
             sleep 0.1
+            # 返回命中的元素
             match = regexps.find { |regexp| @output.match? regexp }
             return match if match
             true
