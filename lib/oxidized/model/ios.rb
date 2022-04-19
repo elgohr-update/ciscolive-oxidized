@@ -17,8 +17,8 @@ class IOS < Oxidized::Model
   # end
 
   cmd :all do |cfg|
-    # cfg.gsub! /\cH+\s{8}/, ''         # example how to handle pager
-    # cfg.gsub! /\cH+/, ''              # example how to handle pager
+    cfg.gsub! /\cH+\s{8}/, ''         # example how to handle pager
+    cfg.gsub! /\cH+/, ''              # example how to handle pager
     # get rid of errors for commands that don't work on some devices
     cfg.gsub!(/^% Invalid input detected at '\^' marker\.$|^\s+\^$/, "")
     cfg.cut_both
